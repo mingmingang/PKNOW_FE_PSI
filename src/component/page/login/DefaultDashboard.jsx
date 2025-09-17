@@ -59,10 +59,10 @@ export default function DefaultDashboard() {
   const redirectBasedOnRole = (userInfo) => {
     const role = userInfo.peran;
 
-    if (
+     if (
       role === "PIC P-KNOW" ||
-      role === "PIC KELOMPOK KEAHLIAN" ||
-      role === "DOSEN"
+      role === "PIC Kelompok Keahlian" ||
+      role === "Tenaga Pendidik"
     ) {
       window.location.href = "/beranda_utama";
     } else if (role === "PRODI") {

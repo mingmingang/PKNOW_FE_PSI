@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Button from "../../../part/Button";
 import Loading from "../../../part/Loading";
 import { Stepper } from "react-form-stepper";
-import axios from "axios";
+import UseFetch from "../../../../util/UseFetch";
 import { API_LINK } from "../../../util/Constants";
 import AppContext_test from "../../master-test/TestContext";
 import Alert from "../../../part/Alert";
@@ -70,7 +70,7 @@ export default function MasterPostTestDetail({ onChangePage, withID }) {
 
     try {
       while (true) {
-        const data = await axios.post(API_LINK + "Quiz/GetQuizByID", {
+        const data = await UseFetch(API_LINK + "Quiz/GetQuizByID", {
           id: AppContext_test.DetailMateri?.Key,
           tipe: "Posttest",
         });
@@ -81,18 +81,16 @@ export default function MasterPostTestDetail({ onChangePage, withID }) {
           await new Promise((resolve) => setTimeout(resolve, 2000));
         } else {
           const convertedData = {
-            ...data.data[0],
-            tanggalAwal: data.data[0]?.tanggalAwal
-              ? new Date(data.data[0].tanggalAwal).toISOString().split("T")[0]
+            ...data[0],
+            tanggalAwal: data[0]?.tanggalAwal
+              ? new Date(data[0].tanggalAwal).toISOString().split("T")[0]
               : "",
-            tanggalAkhir: data.data[0]?.tanggalAkhir
-              ? new Date(data.data[0].tanggalAkhir).toISOString().split("T")[0]
+            tanggalAkhir: data[0]?.tanggalAkhir
+              ? new Date(data[0].tanggalAkhir).toISOString().split("T")[0]
               : "",
           };
           setTimer(
-            data.data[0].timer
-              ? convertSecondsToTimeFormat(data.data[0].timer)
-              : ""
+            data[0].timer ? convertSecondsToTimeFormat(data[0].timer) : ""
           );
           setFormData(convertedData);
           setIsLoading(false);
@@ -118,11 +116,12 @@ export default function MasterPostTestDetail({ onChangePage, withID }) {
 
     try {
       while (true) {
-        const { data } = await axios.post(API_LINK + "Quiz/GetDataQuestion", {
+        const data = await UseFetch(API_LINK + "Quiz/GetDataQuestion", {
           id: AppContext_test.DetailMateri?.Key,
           status: "Aktif",
           Tipe: "Posttest",
         });
+
         if (data === "ERROR") {
           throw new Error("Terjadi kesalahan: Gagal mengambil data quiz.");
         } else if (data.length === 0) {

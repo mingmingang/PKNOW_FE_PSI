@@ -7,7 +7,7 @@ import {
   faSyncAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import "../../style/PowerPointViewer.css";
-import axios from "axios";
+import UseFetch from "../util/UseFetch";
 
 const PowerPointViewerIframe = ({ fileUrl, fileData }) => {
   const [zoomLevel, setZoomLevel] = useState(1);
@@ -26,11 +26,13 @@ const PowerPointViewerIframe = ({ fileUrl, fileData }) => {
 
   const setupDownload = async (fileUrl, formattedFileName) => {
     try {
-      const response = await axios.get(fileUrl, {
-        responseType: "blob",
-      });
+      const response = await UseFetch(fileUrl, {}, "GET");
+      
+      if (response === "ERROR") {
+        throw new Error("Gagal mengunduh file");
+      }
 
-      const blob = new Blob([response.data], {
+      const blob = new Blob([response], {
         type: "application/vnd.ms-powerpoint",
       });
       const blobUrl = window.URL.createObjectURL(blob);
@@ -41,7 +43,9 @@ const PowerPointViewerIframe = ({ fileUrl, fileData }) => {
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(blobUrl);
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error downloading file:", error);
+    }
   };
 
   const officeViewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(

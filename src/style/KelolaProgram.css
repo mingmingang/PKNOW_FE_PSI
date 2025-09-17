@@ -1,0 +1,206 @@
+.app-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.program-header {
+  color: #0a5ea8;
+  font-size: 30px;
+  font-weight: bold;
+  padding: 0 12px 8px;
+  margin-top: 10px;
+}
+
+.program-card {
+  border-radius: 10px;
+  margin-bottom: 16px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+}
+
+.card-programtitle {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.card-body.p-0.program {
+  margin: 20px 20px;
+}
+
+.icon-button {
+  padding: 0 8px;
+  color: #0a5ea8;
+}
+
+.action-kelola {
+  gap: 8px;
+}
+
+.action-buttons-container {
+  display: flex;
+  gap: 10px;
+}
+
+.primary-action-btn {
+  border-radius: 8px;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.secondary-action-btn {
+  background: white;
+  color: #0a5ea8;
+  font-size: 18px;
+  padding: 5px 10px;
+}
+
+.primary-button {
+  border-radius: 8px;
+  padding: 8px 16px;
+  margin-right: 10px;
+}
+
+.description-text {
+  text-align: justify;
+  margin-top: 16px;
+}
+
+.subheader {
+  color: #0a5ea8;
+  padding: 8px 0;
+}
+
+.modal-content {
+  border-radius: 10px;
+}
+
+.modal-header {
+  border-bottom: 1px solid #dee2e6;
+}
+
+.card-profile {
+  display: flex;
+  margin-bottom: 12px;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  border-radius: 8px;
+}
+
+.profile-index {
+  padding: 0 4px;
+  margin: 8px 8px 0 0;
+  font-weight: bold;
+  color: #0a5ea8;
+}
+
+.profile-divider {
+  width: 1.5%;
+  background-color: #0a5ea8;
+}
+
+.profile-content {
+  padding: 4px 0 4px 8px;
+  display: flex;
+}
+
+.profile-image {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+
+.profile-details {
+  padding-left: 12px;
+}
+
+.profile-name {
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.profile-meta {
+  font-size: 13px;
+  margin-bottom: 0;
+}
+
+.program-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .program-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card.p-0.mb-3.program {
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .card.card-kategori-program {
+    margin-left: 10px;
+    margin-right: -60px;
+  }
+
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .action-kelola {
+    padding-bottom: 18px;
+    gap: 8px;
+    margin-right: -20px;
+  }
+
+  .action-buttons {
+    margin-top: 12px;
+  }
+
+  .action-buttons-container {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .primary-action-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  .secondary-action-btn {
+    margin-right: -70px;
+  }
+
+  .card-programtitle {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: -40px;
+    margin-right: -60px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1080px) {
+  .action-kelola {
+    gap: 12px;
+  }
+}

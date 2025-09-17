@@ -1,0 +1,168 @@
+.wait-accepted-layout {
+  margin: 20px 100px;
+  border: 1px solid rgba(178, 175, 175, 0.462);
+  padding: 25px 45px;
+  border-radius: 15px;
+}
+
+.title-wait-accepted {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #0a5ea8;
+}
+
+.title-wait-accepted h1 {
+  font-weight: 600;
+  font-size: 30px;
+}
+
+.title-wait-accepted p {
+  font-weight: bold;
+}
+
+.list-wait {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+  background: #fff;
+  box-shadow: 0px 0px 20px 0px rgba(10, 95, 168, 0.2);
+  border-radius: 15px;
+  padding: 10px 20px;
+  margin-top: 15px;
+}
+
+.list-wait .informasi-detail {
+  display: flex;
+  align-items: center;
+  color: #0a5ea8;
+}
+
+.list-wait .informasi-detail img {
+  margin-right: 15px;
+}
+
+.list-wait .informasi-detail h3 {
+  margin-top: 15px;
+  margin-bottom: 0;
+  font-weight: 600;
+}
+
+.action-accepted i {
+  background-color: rgba(179, 177, 177, 0.103);
+  padding: 10px 18px;
+  border-radius: 4px;
+  margin-right: 10px;
+  margin-top: 20px;
+}
+
+.action-accepted i:hover {
+  background-color: rgba(175, 173, 173, 0.199);
+}
+
+.action-accepted .fa-file-alt {
+  color: #0a5ea8;
+  font-weight: 600;
+}
+
+.action-accepted .fa-check {
+  color: rgb(69, 231, 69);
+}
+
+.action-accepted .fa-times {
+  color: rgb(249, 0, 0);
+  font-weight: 600;
+}
+
+.detail-lampiran {
+  margin: 20px 100px;
+  border: 1px solid rgba(178, 175, 175, 0.462);
+  padding: 25px 45px;
+  border-radius: 15px;
+}
+
+.group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.group input[type="text"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  background-color: #ffffff;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.download-button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.download-button:hover {
+  background-color: #0056b3;
+}
+
+.accept-cancel-decline {
+  display: flex;
+  justify-content: space-between;
+}
+
+.back-page {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 80px;
+  margin-bottom: 20px;
+}
+
+.back-page .btn,
+.accept-cancel-decline .btn {
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.back-page .btn-cancel,
+.accept-cancel-decline .btn-cancel {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  margin-right: 20px;
+}
+
+.back-page .btn-cancel:hover,
+.accept-cancel-decline .btn-cancel :hover {
+  background-color: #5a6268;
+  color: white;
+}
+
+.accept-decline-button .btn-confirm {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  margin-right: 20px;
+}
+
+.accept-decline-button .btn-confirm :hover {
+  background-color: #056bd7;
+  color: white;
+}

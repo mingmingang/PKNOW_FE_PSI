@@ -1,0 +1,327 @@
+:root {
+  --primary-color: rgb(10, 94, 168);
+  --secondary-color: rgba(8, 84, 159, 1);
+  --button-color: #0e6efe;
+}
+
+.content-container {
+  margin: 80px 160px;
+  margin-top: 20px;
+}
+
+.information-kelompok-keahlian {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.informasi-kk .title {
+  color: var(--primary-color);
+  font-weight: bold;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.informasi-kk .about {
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.informasi-kk .prodi p,
+.informasi-kk .userProdi p {
+  margin-left: 10px;
+  font-weight: bold;
+  display: inline;
+  font-size: 16px;
+}
+
+.informasi-kk .deskripsi {
+  width: 600px;
+  text-align: justify;
+  font-size: 15px;
+  line-height: 1.6;
+  margin-top: 15px;
+}
+
+.cover-kk-show img {
+  border-radius: 20px;
+  object-fit: cover;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+}
+
+.form-anggota,
+.form-tambah-anggota,
+.kategori-kelompok-keahlian {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  border-radius: 14px;
+  max-width: 600px;
+  width: 100%;
+  background: #fff;
+  box-shadow: 0px 0px 20px rgba(10, 95, 168, 0.2);
+  padding: 20px 40px;
+}
+
+.form-daftar-anggota h1,
+.form-tambah-anggota h1,
+.kategori-kelompok-keahlian h1 {
+  margin-bottom: 20px;
+  color: var(--primary-color);
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.form-daftar-anggota .input-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-search .search-icon {
+  position: absolute;
+  left: 10px;
+  font-size: 14px;
+  color: var(--secondary-color);
+}
+
+.input-search .search {
+  width: 100%;
+  padding: 10px 15px 10px 30px;
+  border: 1px solid rgba(10, 95, 168, 0.4);
+  border-radius: 8px;
+  outline: none;
+  font-size: 14px;
+}
+
+.list-anggota,
+.list-anggota-add {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  box-shadow: 0px 0px 20px rgba(10, 95, 168, 0.2);
+  padding: 15px 25px;
+  border-radius: 20px;
+  margin-top: 15px;
+}
+
+.list-anggota .nama-prodi,
+.list-anggota-add .nama-prodi {
+  display: flex;
+  align-items: center;
+}
+
+.nama-prodi .identitas-anggota {
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--primary-color);
+}
+
+.list-anggota .profile-anggota,
+.list-anggota-add .profile-anggota {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.delete-trash,
+.plus-add {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(128, 128, 128, 0.1);
+  padding: 10px 15px;
+  border-radius: 10px;
+}
+
+.delete-trash i {
+  color: red;
+}
+
+.plus-add i {
+  color: var(--primary-color);
+}
+
+.identitas-anggota h3 {
+  font-size: 20px;
+  font-weight: 550;
+  margin-bottom: 0;
+  margin-top: 5px;
+}
+
+.identitas-anggota p {
+  font-size: 14px;
+  margin-top: 5px;
+  color: rgba(8, 84, 159, 0.8);
+}
+
+.top-title-sort {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.top-title-sort h1 {
+  margin-top: 5px;
+}
+
+.buttonadd_filter {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.detail-anggota-add {
+  display: flex;
+}
+
+.form-anggota {
+  margin-right: 20px;
+}
+
+.kategori-item h3 {
+  font-size: 16px;
+  color: var(--primary-color);
+}
+
+.kategori-item p {
+  text-align: justify;
+  font-size: 13px;
+  width: 100%;
+}
+
+.kategori-item button {
+  background-color: transparent;
+  border: none;
+  color: #0e6efe;
+  font-size: 13px;
+  margin-top: -10px;
+  display: flex;
+}
+
+.detail-program-button {
+  display: flex;
+  justify-content: space-between;
+}
+
+.fotoprofil img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--primary-color);
+}
+
+.modal-confirm {
+  background-color: #fff;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0px 0px 20px rgba(10, 95, 168, 0.3);
+}
+
+.modal-confirm .modal-title {
+  font-size: 22px;
+  color: var(--primary-color);
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.modal-confirm .modal-message {
+  font-size: 16px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.modal-confirm .modal-actions {
+  display: flex;
+  justify-content: space-around;
+}
+
+.modal-confirm .confirm-button,
+.modal-confirm .cancel-button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.confirm-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+}
+
+.cancel-button {
+  background-color: #ccc;
+  color: #333;
+  border: none;
+}
+
+@media screen and (max-width: 768px) {
+  .card-profile {
+    align-items: flex-start !important;
+    padding: 10px !important;
+  }
+
+  .card-profile img {
+    width: 40px !important;
+    height: 40px !important;
+    margin-bottom: 10px;
+  }
+
+  .card-profile .ps-3 {
+    padding-left: 0 !important;
+  }
+
+  .card-profile .btn {
+    align-self: flex-end;
+    margin-top: 10px;
+  }
+
+  .information-kelompok-keahlian {
+    flex-direction: column;
+    margin: 0 0px;
+  }
+
+  .detail-kk {
+    width: 100% !important;
+    height: auto !important;
+    margin-top: 20px;
+  }
+
+  .cover-kk-show img {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .informasi-kk .deskripsi {
+    width: 100% !important;
+  }
+
+  .content-container {
+    margin: 20px;
+  }
+
+  .back-and-title {
+    margin-left: 20px !important;
+  }
+
+  .title {
+    margin-left: 0px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .detail-kk {
+    width: 100% !important;
+    height: auto !important;
+  }
+}

@@ -1,0 +1,238 @@
+.kelompokKeahlian {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.kelompok-keahlian-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.kelompok-keahlian-item {
+  flex: 1 1 300px;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.bg-white-kk {
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0px 0px 20px 0px rgba(10, 95, 168, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 396px;
+  overflow: hidden;
+  padding: 0px;
+  margin: 10px;
+}
+
+.content {
+  padding: 0px 20px;
+}
+
+.bg-white-kk .cover-daftar-kk,
+.newws {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+}
+
+.title-kelompok-keahlian {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.bg-white-kk h3 {
+  color: #0a5ea8;
+  font-size: 22px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.descni {
+  font-family: "Barlow";
+  color: black;
+  margin: 0 20px 10px;
+}
+
+.deskripsi {
+  color: #666;
+  font-size: 15px;
+  text-align: justify;
+  max-height: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.status-open {
+  align-items: center;
+  padding: 10px 20px;
+  border-top: 1px solid #eee;
+  margin-top: auto;
+}
+
+.status-open img {
+  width: 15px;
+  margin-right: 5px;
+}
+
+.status-open p {
+  font-size: 15px;
+  margin: 0;
+}
+
+.status-open button {
+  border-radius: 5px;
+  background: #0e6efe;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pemilik {
+  margin: 0 20px 10px;
+}
+
+.pemilik p {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 4px 0;
+}
+
+.prodi,
+.userProdi {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 1000;
+  background: #fff;
+  border-radius: 10px;
+  min-width: 10rem;
+  box-shadow: 0 4px 8px rgba(41, 117, 217, 0.3);
+  color: #0a5ea8;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+.show {
+  display: block;
+}
+
+.open:hover {
+  background-color: #3b89fd;
+}
+
+.person-icon {
+  margin-right: 12px;
+}
+
+@media (min-width: 1024px) and (max-width: 1080px) {
+  .kelompok-keahlian-item {
+    flex: 1 1 45%;
+  }
+  .bg-white-kk {
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0px 0px 20px 0px rgba(10, 95, 168, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    width: 440px;
+    overflow: hidden;
+    padding: 0px;
+    margin: 10px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .kelompok-keahlian-item {
+    flex: 1 1 45%;
+  }
+
+  .title-kk {
+    font-size: 18px;
+  }
+
+  .status tr td p {
+    font-size: 10px;
+  }
+
+  .card-footer p {
+    font-size: 12px;
+  }
+
+  .bg-white-kk {
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0px 0px 20px 0px rgba(10, 95, 168, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    width: 340px;
+    overflow: hidden;
+    padding: 0px;
+    margin: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .kelompok-keahlian-item {
+    flex: 1 1 100%;
+  }
+
+  .title-kk {
+    font-size: 14px;
+  }
+  .bg-white-kk h3 {
+    font-size: 18px;
+  }
+
+  .btn-primary {
+    font-size: 9px;
+  }
+
+  .bg-white-kk {
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0px 0px 20px 0px rgba(10, 95, 168, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    width: 350px;
+    overflow: hidden;
+    padding: 0px;
+    margin: 5px;
+  }
+
+  .status-open {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}

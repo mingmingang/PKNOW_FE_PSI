@@ -1,0 +1,694 @@
+:root {
+  --primary-color: rgb(10, 94, 168);
+  --secondary-color: rgba(8, 84, 159, 1);
+}
+
+.sec1 {
+  background-image: url("../assets/bgBeranda.png");
+  display: flex;
+  width: 100%;
+  padding-right: 5%;
+  height: 100vh;
+  background-size: cover;
+  background-color: var(--primary-color);
+}
+
+.sec3 {
+  padding-top: 40px;
+  padding-left: 80px;
+  padding-right: 80px;
+  width: 100%;
+  height: 60vh;
+  background-size: cover;
+  background-color: white;
+}
+
+.sec4 {
+  background-image: url("../assets/bgBeranda.png");
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-color: var(--secondary-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sec5 {
+  display: flex;
+  width: 100%;
+  height: 40vh;
+  background-size: cover;
+  background-color: white;
+}
+
+.sec6 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 60vh;
+  margin-top: 100px;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0)),
+    url("../assets/backgroundLogin.png");
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0 5%;
+  position: relative;
+  overflow: hidden;
+}
+
+.comment {
+  background-color: white;
+  padding: 20px;
+  border-radius: 20px;
+  width: 30%;
+  text-align: justify;
+  margin-right: 50px;
+}
+
+.ucapan {
+  padding-top: 24vh;
+  width: 55%;
+  padding-left: 8%;
+}
+
+.ucapan2 {
+  flex: 0 0 60%;
+  z-index: 2;
+}
+
+.imgMaskot {
+  position: absolute;
+  right: 5%;
+  bottom: 0;
+  width: 50%;
+  max-width: 600px;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.maskot {
+  width: 100%;
+  height: auto;
+  max-height: 90vh;
+  object-fit: contain;
+  object-position: right bottom;
+}
+
+.maskot2 {
+  width: 100%;
+  height: auto;
+  max-height: 90vh;
+  object-fit: contain;
+  object-position: right bottom;
+}
+
+.ucapan2 h1 {
+  font-weight: bold;
+  font-size: 55px;
+  margin-top: 30px;
+  text-shadow: rgb(110, 110, 110) 4px 4px 8px;
+}
+
+.ucapan2 p {
+  line-height: 30px;
+  text-align: justify;
+  margin-top: 25px;
+  text-shadow: rgb(0, 0, 0) 4px 4px 4px;
+}
+
+.ucapan2 h3 {
+  color: #fff;
+  font-size: 1.8rem;
+  margin-bottom: 0;
+  text-shadow: rgb(25, 25, 25) 2px 2px 5px;
+}
+
+.ucapan h3 {
+  color: #fff;
+  font-size: 1.8rem;
+  margin-bottom: 0;
+}
+
+.ucapan h1 {
+  font-weight: bold;
+  color: #fff;
+  font-size: 3rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+  max-width: 1000px;
+}
+
+.ucapan p {
+  color: #fff;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  text-align: justify;
+  margin-bottom: 1rem;
+  width: 600px;
+}
+
+.ucapan button {
+  margin-top: 2rem;
+  border: none;
+  background-color: white;
+  width: 70%;
+  max-width: 280px;
+  height: 60px;
+  border-radius: 35px;
+  color: var(--primary-color);
+  font-size: 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ucapan button:hover {
+  background-color: var(--primary-color);
+  color: white;
+  transition-duration: 0.5s;
+  transform: translateY(-3px);
+  z-index: inherit;
+}
+
+.imgDatang {
+  padding-top: 40vh;
+  display: flex;
+  width: 27%;
+  height: 100%;
+}
+
+.sec4 p {
+  margin: 10px 200px;
+  font-size: 14px;
+}
+
+.sec5 button {
+  padding: 15px;
+  border: none;
+}
+
+.sec5 p {
+  text-align: justify;
+  margin-top: 20px;
+  color: #717375;
+}
+
+.sec5 h3 {
+  width: 80%;
+}
+
+.sec5 h4 {
+  margin-top: 20px;
+}
+
+.perusahaan {
+  margin-top: 60px;
+  margin-left: 40px;
+}
+
+.logoAstratech {
+  margin-top: 40px;
+  margin-right: 80px;
+}
+
+.company {
+  display: flex;
+}
+
+.imgDatang {
+  padding-top: 40vh;
+  display: flex;
+  width: 25%;
+  height: 100%;
+  margin-left: -120px;
+}
+
+.sec4 button:hover {
+  background-color: var(--primary-color);
+  color: white;
+  transition-duration: 0.5s;
+  transform: translateY(-3px);
+  z-index: inherit;
+}
+
+@media (max-width: 768px) {
+  .sec1 {
+    background-size: cover;
+    background-position: center;
+  }
+
+  .ucapan {
+    width: 90%;
+    padding-left: 0;
+  }
+
+  .ucapan h1 {
+    font-size: 3rem;
+  }
+
+  .ucapan p {
+    font-size: 14px;
+  }
+
+  .ucapan button {
+    width: 100%;
+  }
+
+  .imgDatang {
+    width: 80%;
+    margin-left: 0;
+  }
+
+  .sec6 {
+    height: 900px;
+  }
+
+  .sec6 h4 {
+    font-size: 20px;
+    padding-top: 40px;
+    margin: 10px 30px;
+  }
+
+  .sec6 p {
+    font-size: 12px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .d-flex {
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .comment {
+    width: 370px;
+    padding: 15px;
+    margin-left: 20px;
+    margin-top: 20px;
+  }
+
+  .d-flex img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .comment p {
+    font-size: 12px;
+  }
+
+  .isi {
+    font-size: 12px;
+  }
+
+  .imgDatang {
+    display: none;
+  }
+
+  .ucapan h3 {
+    text-align: center;
+  }
+
+  .ucapan h1 {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 600;
+    margin-top: 20px;
+  }
+
+  .ucapan {
+    margin-left: 30px;
+  }
+
+  .ucapan button {
+    margin-left: 30px;
+  }
+
+  .sec1 p {
+    line-height: 30px;
+  }
+
+  .sec4 p {
+    margin: 10px 10px;
+    font-size: 13px;
+    line-height: 25px;
+  }
+
+  .sec4 img {
+    width: 270px;
+    margin-top: 30px;
+  }
+
+  .sec4 {
+    min-height: 90vh;
+    height: 90vh;
+  }
+
+  .sec5 .logoAstratech {
+    display: none;
+  }
+
+  .sec5 h4 {
+    margin-top: 20px;
+    font-size: 16px;
+    text-align: center;
+    margin-left: -40px;
+  }
+
+  .sec5 img {
+    width: 360px;
+    margin-left: -20px;
+  }
+
+  .sec5 h3 {
+    text-align: center;
+    margin-left: -10px;
+    font-size: 18px;
+    max-width: 400px;
+    width: 100%;
+  }
+
+  .sec5 h4 {
+    font-size: 14px;
+  }
+
+  .sec5 p {
+    text-align: center;
+    margin-left: 5px;
+    font-size: 14px;
+    width: 320px;
+    font-weight: 500;
+  }
+
+  .sec5 .perusahaan {
+    margin-top: 20px;
+    margin-left: 25px;
+  }
+
+  .company {
+    display: block;
+  }
+
+  .sec4 {
+    background-size: cover;
+    background-position: center;
+  }
+
+  .sec4 img {
+    width: 350px;
+  }
+
+  .sec5 {
+    max-height: 350px;
+  }
+
+  .sec5 h4 {
+    width: 100%;
+    text-align: left;
+    margin-left: -10px;
+  }
+
+  .cmp_astra {
+    margin-left: 30px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .imgMaskot {
+    width: 40%;
+  }
+}
+
+@media (max-width: 992px) {
+  .ucapan2 {
+    max-width: 70%;
+  }
+
+  .maskot {
+    height: 85%;
+  }
+}
+
+@media (max-width: 768px) {
+  .sec6 {
+    flex-direction: column;
+    padding-bottom: 300px;
+  }
+
+  .ucapan p {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .ucapan2 {
+    max-width: 100%;
+  }
+
+  .imgMaskot {
+    position: relative;
+    width: 80%;
+    height: auto;
+    margin-top: 30px;
+    align-self: flex-end;
+  }
+
+  .maskot {
+    height: auto;
+    width: 100%;
+    max-height: 300px;
+    right: 0;
+  }
+
+  .sec6 {
+    background-size: cover;
+    background-position: center;
+  }
+
+  .sec6 h3 {
+    margin-top: 40px;
+  }
+
+  .sec6 p {
+    font-size: 16px;
+  }
+
+  .sec6 {
+    height: 80vh;
+  }
+
+  .sec6 .maskot2 {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1080px) {
+  .sec1 {
+    background-size: cover;
+    background-position: center;
+    display: block;
+  }
+
+  .maskot2 {
+    display: none;
+  }
+
+  .ucapan {
+    width: 100%;
+    padding-left: 0;
+    text-align: center;
+  }
+
+  .ucapan h3 {
+    font-size: 38px;
+    font-weight: bold;
+  }
+
+  .ucapan p {
+    width: 100%;
+    font-size: 20px;
+    line-height: 45px;
+    text-align: center;
+  }
+
+  .ucapan button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .imgDatang {
+    width: 40%;
+    display: none;
+  }
+
+  .sec6 {
+    height: 900px;
+  }
+
+  .sec6 h4 {
+    font-size: 20px;
+    padding-top: 40px;
+    margin: 10px 30px;
+  }
+
+  .sec6 p {
+    font-size: 12px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .d-flex {
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .comment {
+    width: 370px;
+    padding: 15px;
+    margin-left: 20px;
+    margin-top: 20px;
+  }
+
+  .d-flex img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .comment p {
+    font-size: 12px;
+  }
+
+  .isi {
+    font-size: 12px;
+  }
+
+  .ucapan2 {
+    margin-top: 100px;
+  }
+
+  .ucapan2 p {
+    font-size: 23px;
+    line-height: 45px;
+  }
+
+  .ucapan h3 {
+    text-align: center;
+  }
+
+  .ucapan h1 {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 600;
+    margin-top: 20px;
+  }
+
+  .ucapan {
+    margin-left: 30px;
+  }
+
+  .sec1 p {
+    line-height: 30px;
+  }
+
+  .sec4 h4 {
+    font-size: 28px;
+  }
+
+  .sec4 p {
+    margin: 40px 10px;
+    font-size: 20px;
+    line-height: 35px;
+  }
+
+  .sec4 img {
+    width: 400px;
+    margin-top: 30px;
+  }
+
+  .sec4 {
+    min-height: 90vh;
+    height: 90vh;
+  }
+
+  .sec4 button {
+    font-size: 20px;
+  }
+
+  .sec4 img {
+    width: 700px;
+  }
+
+  .sec5 .logoAstratech {
+    display: block;
+    margin: 40px;
+    width: 100px;
+  }
+
+  .sec5 h4 {
+    margin-top: 20px;
+    font-size: 16px;
+    text-align: center;
+    margin-left: -40px;
+  }
+
+  .sec5 img {
+    margin-left: -20px;
+  }
+
+  .sec5 h3 {
+    text-align: center;
+    margin-left: -10px;
+    font-size: 18px;
+    text-align: left;
+    max-width: 600px;
+    width: 100%;
+  }
+
+  .sec5 h4 {
+    font-size: 14px;
+    max-width: 500px;
+  }
+
+  .sec5 .mt-4,
+  .perusahaan {
+    max-width: 600px;
+  }
+
+  .sec5 p {
+    text-align: justify;
+    font-size: 14px;
+    font-weight: 500;
+    max-width: 560px;
+  }
+
+  .sec5 .perusahaan {
+    margin-top: 20px;
+    margin-left: 25px;
+  }
+
+  .sec4 {
+    background-size: cover;
+    background-position: center;
+  }
+
+  .sec5 {
+    max-height: 350px;
+  }
+
+  .sec5 h4 {
+    width: 100%;
+    text-align: left;
+    margin-left: -10px;
+  }
+
+  .cmp_astra {
+    margin-left: 30px;
+  }
+
+  .sec6 {
+    background-size: cover;
+    background-position: center;
+    display: block;
+  }
+}

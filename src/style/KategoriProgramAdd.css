@@ -1,0 +1,141 @@
+.kategori-add-container {
+  margin-top: 100px;
+  margin-left: 70px;
+  margin-right: 70px;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.back-and-title.add-kat {
+  display: flex;
+  align-items: center;
+}
+
+.back-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.page-title {
+  color: #0a5ea8;
+  font-weight: bold;
+  font-size: 30px;
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+.draft-badge {
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.form-container.add-kat {
+  margin: 30px 70px;
+}
+
+.form-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.form-input {
+  margin-bottom: 1rem;
+}
+
+.action-buttons.add-kat {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 20px;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+
+.cancel-button.add-kat {
+  background-color: #6c757d;
+  color: white;
+  padding: 5px 15px;
+  font-weight: bold;
+  border-radius: 10px;
+  border: none;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.save-button.add-kat {
+  background-color: #0d6efd;
+  color: white;
+  padding: 5px 20px;
+  font-weight: bold;
+  border-radius: 10px;
+  border: none;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .kategori-add-container {
+    margin: 50px 20px;
+  }
+
+  .page-title.kategori {
+    font-size: 24pt;
+  }
+
+  .form-container.add-kat {
+    margin-top: -30px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .kategori-add-container.header-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .back-and-title.add-kat {
+    margin-top: 50px;
+    margin-left: 150px;
+  }
+
+  .draft-badge {
+    margin-top: 10px;
+    align-self: flex-start;
+  }
+
+  .action-buttons.add-kat {
+    display: flex;
+    margin-top: 20px;
+    margin-left: -50px;
+    gap: 55px;
+  }
+
+  .cancel-button.add-kat,
+  .save-button.add-kat {
+    margin-left: -50px;
+    width: auto;
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .page-title {
+    font-size: 24px;
+  }
+
+  .cancel-button.add-kat,
+  .save-button.add-kat {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+}

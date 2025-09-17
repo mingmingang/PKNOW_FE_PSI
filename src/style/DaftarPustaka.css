@@ -1,0 +1,177 @@
+.bg-white-dp {
+  margin-left: 60px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0px 0px 20px 0px rgba(10, 95, 168, 0.2);
+  width: 400px;
+  height: 540px;
+  margin-top: 5px;
+  margin-bottom: 28px;
+}
+
+.title-daftar-pustaka {
+  justify-content: space-between;
+  display: flex;
+}
+
+.bg-white-dp .cover-daftar-dp {
+  width: 380px;
+  object-fit: cover;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+}
+
+.bg-white-dp h3 {
+  color: var(--ASTRAtech, #0a5ea8);
+  font-size: 23px;
+  padding-left: 20px;
+  margin-bottom: 15px;
+  font-weight: bold;
+  width: 300px;
+}
+
+.bg-white-dp p {
+  font-family: "Poppins";
+  color: black;
+  margin: 0px 20px;
+  margin-bottom: 12px;
+}
+
+.bg-white-dp .deskripsi {
+  color: rgb(128, 128, 128);
+  text-align: justify;
+  font-size: 15px;
+  max-height: 90px;
+  height: 100%;
+}
+
+.status-open {
+  justify-content: space-between;
+  display: flex;
+  margin: 0px 20px;
+}
+
+.status-open img {
+  width: 15px;
+}
+
+.status-open p {
+  margin-top: 10px;
+  font-size: 15px;
+  margin-left: 10px;
+}
+
+.status-open button {
+  border-radius: 5px;
+  background: var(--Button, #0e6efe);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.pemilik {
+  margin-left: 20px;
+}
+
+.pemilik p {
+  font-size: 16px;
+  font-family: "Poppins SemiBold";
+}
+
+.prodi,
+.userProdi {
+  display: flex;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: auto;
+  right: 0;
+  z-index: 1000;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  min-width: 10rem;
+  box-shadow: 0 4px 8px rgba(41, 117, 217, 0.346);
+  color: #0a5ea8;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+.show {
+  display: block;
+}
+
+.dapus-container {
+  margin-top: 100px;
+  margin-left: 100px;
+  margin-right: 100px;
+}
+
+.daftar-pustaka-content {
+  border: 1px solid rgba(128, 128, 128, 0.229);
+  padding: 40px;
+  margin-bottom: 50px;
+  border-radius: 20px;
+}
+
+.daftar-pustaka-title-layout {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.daftar-pustaka-title-layout img {
+  margin-right: 40px;
+}
+
+.detail-informasi-daftar-pustaka h3 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #0a5ea8;
+}
+
+.back-title-daftar-pustaka {
+  display: flex;
+  margin-bottom: 20px;
+  color: #0a5ea8;
+}
+
+.back-title-daftar-pustaka h1 {
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.back-title-daftar-pustaka .back {
+  margin-right: 20px;
+}
+
+.pustaka-layout {
+  display: flex;
+}
+
+.cover {
+  border-radius: 20px;
+  width: 500px;
+  height: 200px;
+  object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .cover {
+    border-radius: 20px;
+    width: 280px;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .pustaka-layout {
+    display: block;
+  }
+}

@@ -1,0 +1,134 @@
+.table-container {
+  width: 98%;
+  overflow-x: auto;
+}
+
+.dynamic-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.dynamic-table th,
+.dynamic-table td {
+  padding: 12px;
+  border: 1px solid white;
+  text-align: center;
+}
+
+.dynamic-table th {
+  background-color: #0a5ea8;
+  color: white;
+}
+
+.dynamic-table tbody tr:nth-child(even) {
+  background-color: #ddd;
+}
+
+.dynamic-table tbody tr:hover {
+  background-color: #ddd;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  gap: 5px;
+}
+
+.pagination button {
+  padding: 8px 12px;
+  margin: 0 3px;
+  border: 1px solid white;
+  background-color: #f2f2f2;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.pagination button.active {
+  background-color: #0a5ea8;
+  color: white;
+  font-weight: bold;
+}
+
+.pagination button:disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+}
+
+.trash-icon {
+  cursor: pointer;
+  color: #ff4d4f;
+  font-size: 18px;
+}
+
+.trash-icon:hover {
+  color: #ff0000;
+}
+
+.modal-confirmation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirmation-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.button-confirm {
+  margin-top: 15px;
+}
+
+.btn-yes,
+.btn-no {
+  padding: 10px 15px;
+  margin: 5px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.btn-yes {
+  background-color: #4caf50;
+  color: white;
+}
+
+.btn-no {
+  background-color: #f44336;
+  color: white;
+}
+
+.dynamic-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.dynamic-table th:first-child {
+  border-top-left-radius: 10px;
+}
+
+.dynamic-table th:last-child {
+  border-top-right-radius: 10px;
+}
+
+.dynamic-table tr:last-child td:first-child {
+  border-bottom-left-radius: 10px;
+}
+
+.dynamic-table tr:last-child td:last-child {
+  border-bottom-right-radius: 10px;
+}

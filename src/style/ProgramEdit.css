@@ -1,0 +1,165 @@
+.program-edit-container {
+  margin-top: 100px;
+  margin-left: 70px;
+  margin-right: 70px;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.back-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.page-title.program {
+  color: #0a5ea8;
+  font-weight: bold;
+  font-size: 30px;
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+.form-container {
+  margin: 30px 70px;
+}
+
+.edit-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.form-label {
+  font-weight: bold;
+  padding-bottom: 5px;
+}
+
+.required-star {
+  color: red;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 20px;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+
+.cancel-button {
+  background-color: #6c757d;
+  color: white;
+  padding: 5px 15px;
+  font-weight: bold;
+  border-radius: 10px;
+  border: none;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.save-button {
+  background-color: #0d6efd;
+  color: white;
+  padding: 5px 20px;
+  font-weight: bold;
+  border-radius: 10px;
+  border: none;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.file-preview-section {
+  display: flex;
+}
+
+@media (max-width: 768px) {
+  .back-button {
+    margin-left: -150px;
+  }
+
+  .page-title.program {
+    margin-left: -60px;
+    margin-top: -50px;
+    font-size: 24pt;
+  }
+
+  .back-and-title.edit-pro {
+    padding-left: 130px;
+    padding-top: 20px;
+    margin-top: 30px;
+  }
+
+  .card.edit-card {
+    margin-top: -30px;
+    margin-left: -30px;
+    margin-right: -30px;
+  }
+
+  .form-container {
+    margin: 30px 70px;
+  }
+
+  .action-buttons {
+    margin-left: -20px;
+    margin-top: 20px;
+  }
+
+  .file-preview-section {
+    flex-direction: column;
+  }
+
+  .preview-img {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .back-button {
+    margin-left: -50px;
+  }
+
+  .page-title.program {
+    margin-left: 30px;
+    margin-top: -50px;
+    font-size: 24pt;
+  }
+
+  .back-and-title.edit-pro {
+    margin-top: 30px;
+  }
+
+  .card.edit-card {
+    margin-left: 35px;
+    margin-right: 35px;
+    margin-top: 30px;
+  }
+
+  .form-container {
+    margin: 30px 70px;
+    margin-top: -10px;
+  }
+
+  .action-buttons {
+    margin-left: -20px;
+    margin-top: 20px;
+  }
+
+  .file-preview-section {
+    flex-direction: column;
+  }
+
+  .preview-img {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+}

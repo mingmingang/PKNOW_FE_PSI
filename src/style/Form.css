@@ -1,0 +1,138 @@
+.form-layout {
+  margin-top: 115px;
+  margin-left: 80px;
+  margin-right: 80px;
+}
+
+.form-layout h1 {
+  color: var(--ASTRAtech, #0a5ea8);
+  font-family: Poppins;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.title-form {
+  display: flex;
+  justify-content: space-between;
+}
+
+.back-title-form {
+  display: flex;
+}
+
+.back-title-form h1 {
+  margin-top: 8px;
+  margin-left: 10px;
+  width: 800px;
+}
+
+.form-keterangan {
+  color: white;
+  font-weight: 600;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.form-keterangan p {
+  background-color: #000000;
+  padding: 5px 15px;
+  border-radius: 10px;
+}
+
+.form-data {
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.21);
+  padding: 20px 40px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.form-data label {
+  font-weight: bold;
+}
+
+.file-upload-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: "Poppins", sans-serif;
+}
+
+.image-preview {
+  display: flex;
+}
+
+.image-preview img {
+  object-fit: cover;
+  width: 300px;
+  height: 100px;
+  border-radius: 30px;
+}
+
+.image-preview input[type="file"] {
+  width: 250px;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+}
+
+.form-submit {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form-submit .btn {
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.form-submit .btn-cancel {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  margin-right: 20px;
+}
+
+.form-submit .btn-cancel:hover {
+  background-color: #5a6268;
+  color: white;
+}
+
+.select-container {
+  position: relative;
+}
+
+.select-container select {
+  width: 100%;
+  height: auto;
+  appearance: none;
+  padding-right: 30px;
+}
+
+.dropdown-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}

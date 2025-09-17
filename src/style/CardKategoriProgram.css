@@ -1,0 +1,195 @@
+.card-kategori-program {
+  margin-top: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.draft-badge-katpro {
+  color: #dc3545;
+  background-color: white;
+  padding: 0 0.5rem;
+  margin-top: -12px;
+  margin-left: 0.5rem;
+  font-size: 14px;
+  font-weight: bold;
+  width: fit-content;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.card-kategori-program .card-body {
+  padding: 1.25rem;
+}
+
+.card-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  word-break: b;
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.materi-count {
+  display: flex;
+  align-items: center;
+  color: #0a5ea8;
+}
+
+.description-container {
+  display: flex;
+  margin-top: 0.5rem;
+}
+
+.description-divider {
+  width: 4px;
+  background-color: #0a5ea8;
+  margin-right: 0.5rem;
+  border-radius: 2px;
+}
+
+.description-text {
+  flex: 1;
+}
+
+.description-content {
+  margin-bottom: 0;
+  text-align: justify;
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-height: 75px;
+  transition: max-height 0.3s ease;
+}
+
+.description-content.expanded {
+  line-clamp: unset;
+  max-height: none;
+}
+
+.read-more-link {
+  font-size: 12px;
+  padding: 0;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+.action-buttons {
+  margin-left: 150px;
+}
+
+.draft-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.published-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.view-materi-btn {
+  border: none;
+  background: #0e6efe;
+  padding: 5px 10px;
+  color: white;
+  margin-top: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.view-materi-btn:hover {
+  background: #0d5ed9;
+}
+
+.toggle-switch {
+  width: fit-content;
+  margin-left: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .card-kategori-program {
+    margin-top: 0.75rem;
+  }
+
+  .col {
+    width: 80%;
+  }
+
+  .card-title {
+    font-size: 0.9rem;
+  }
+
+  .draft-badge-katpro {
+    color: #dc3545;
+    background-color: white;
+    margin-left: 0.5rem;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .action-buttons {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .published-actions {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .view-materi-btn {
+    margin-top: 8px;
+  }
+
+  .card.card-kategori-program {
+    margin-right: -20px;
+    padding-right: -10px;
+  }
+
+  .card-body {
+    font-size: 10pt;
+    text-overflow: ellipsis;
+    white-space: normal;
+  }
+
+  .card-header-row {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .description-container {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .draft-icon i {
+    font-size: 14px;
+    margin-left: 4px;
+    padding: 0;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .col {
+    width: 90%;
+  }
+
+  .card-kategori-program {
+    margin-left: 20px;
+    margin-right: -75px;
+  }
+}

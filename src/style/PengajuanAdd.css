@@ -1,0 +1,289 @@
+.pengajuan-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 100px;
+}
+
+.back-and-title-pengajuanAdd {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.form-gabung {
+  margin-bottom: 20px;
+}
+
+.back-button {
+  background-color: transparent;
+  border: none;
+}
+
+.title-pengajuanAdd {
+  color: #0a5ea8;
+  font-weight: bold;
+  font-size: 30px;
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+.draft-badge {
+  font-size: 16px;
+  align-items: center;
+}
+
+.lampiran-card {
+  padding: 1rem;
+}
+
+.lampiran-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.pengajuan-lampiran-upload {
+  position: relative;
+  max-width: 100%;
+}
+
+.lampiran-info {
+  margin-bottom: 0;
+}
+
+.lampiran-upload-container {
+  flex: 1 0 auto;
+  min-width: 0;
+  position: relative;
+  max-width: 100%;
+}
+
+.lampiran-action {
+  flex-shrink: 0;
+  margin-top: 60px;
+  max-width: 20%;
+}
+
+.lampiran-item {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  gap: 20px;
+  width: 100%;
+  position: relative;
+  max-width: 100%;
+}
+
+.lampiran-upload {
+  flex-grow: 1;
+  flex-basis: 600px;
+  flex-shrink: 1;
+}
+
+.file-info {
+  margin-top: 0.5rem;
+}
+
+.file-info ul {
+  margin-bottom: 0;
+  padding-left: 1.25rem;
+}
+
+.input-file-wrapper {
+  width: 100%;
+  max-width: 100%;
+}
+
+.input-file-wrapper .form-control {
+  width: 100%;
+  max-width: 80%;
+  box-sizing: border-box;
+}
+
+.file-input-display span {
+  color: #6c757d;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 20px;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+
+.action-button {
+  padding: 5px 15px;
+  font-weight: bold;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
+.secondary-button {
+  composes: action-button;
+  background-color: #6c757d;
+  color: white;
+}
+
+.primary-button {
+  composes: action-button;
+  background-color: #0d6efd;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .pengajuan-container {
+    flex-direction: column;
+    margin-top: 50px;
+  }
+
+  .back-and-title-pengajuanAdd {
+    max-width: 100%;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin-top: 50px;
+  }
+
+  .title-pengajuanAdd {
+    font-size: 24px;
+  }
+
+  .lampiran-item {
+    flex-direction: column;
+    margin-left: 0;
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .lampiran-upload {
+    flex-basis: auto;
+    width: 100%;
+  }
+
+  .pengajuan-lampiran-upload .form-control {
+    width: 270px;
+  }
+
+  .ket-draft {
+    max-width: 100%;
+    margin-left: 320px;
+    margin-top: 0;
+  }
+
+  sq .container {
+    margin-bottom: 15px;
+  }
+
+  .lampiran-header button {
+    margin-bottom: -170px;
+    margin-left: -60px;
+  }
+
+  .lampiran-upload-container {
+    flex-grow: 1;
+    flex-basis: 20px;
+    flex-shrink: 1;
+  }
+
+  .lampiran-action {
+    margin-top: -20px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .pengajuan-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .back-and-title-pengajuanAdd {
+    flex: 1;
+    min-width: 0;
+    gap: 20px;
+  }
+
+  .title-pengajuanAdd {
+    font-size: 24px;
+    margin-left: 0;
+    margin-top: 15px;
+  }
+
+  .lampiran-item {
+    display: grid;
+    grid-template-columns: 1fr 100px;
+    gap: 15px;
+    align-items: start;
+  }
+
+  .lampiran-upload {
+    flex-basis: auto;
+    width: 100%;
+  }
+
+  .pengajuan-lampiran-upload .form-control {
+    width: 750px;
+  }
+
+  .ket-draft {
+    margin-left: auto;
+    order: 1;
+  }
+
+  .ket-draft.draft-badge {
+    margin-left: 860px;
+    margin-top: 10px;
+    align-self: flex-start;
+    width: 100%;
+    max-width: 100%;
+    text-align: left;
+  }
+
+  .container {
+    margin-bottom: 15px;
+  }
+
+  .lampiran-upload-container {
+    grid-column: 1;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .lampiran-action {
+    grid-column: 2;
+    margin: 0;
+    align-self: center;
+    width: 100%;
+  }
+
+  .input-file-wrapper {
+    width: 100%;
+  }
+
+  .input-file-wrapper .up {
+    margin-right: 120px;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .input-file-wrapper .form-control {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .lampiran-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .lampiran-header button {
+    margin: 10px 0 0 0;
+    align-self: flex-end;
+  }
+}

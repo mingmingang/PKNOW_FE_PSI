@@ -1,0 +1,52 @@
+.card-kategori-program .card-body {
+  word-wrap: break-word;
+  word-break: break-word;
+  width: 100%;
+}
+
+.card-subtitle {
+  width: 100%;
+  font-size: 14px;
+  text-align: justify;
+  word-break: break-word;
+  white-space: normal;
+  line-height: 1.5;
+}
+
+.detail-kk {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+  .card-subtitle {
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .card-subtitle {
+    font-size: 12px !important;
+    line-height: 1.4;
+  }
+
+  .card-kategori-program .card-body {
+    padding: 0.75rem;
+  }
+
+  .desc-detail {
+    font-size: 13px;
+  }
+
+  .card-program .card-body > p,
+  .card-kategori-program .card-title {
+    font-size: 13px;
+  }
+
+  .card-profile p {
+    font-size: 13px;
+  }
+}

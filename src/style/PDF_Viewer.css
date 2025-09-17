@@ -1,0 +1,33 @@
+.pdf-viewer-container {
+  width: 700px;
+  height: 100px;
+}
+
+.rpv-default-layout__toolbar,
+.rpv-default-layout__sidebar-headers,
+.rpv-core__inner-pages .rpv-core__inner-pages--vertical {
+  background-color: #0a5ea8;
+  color: white;
+}
+
+.rpv-core__icon,
+.rpv-toolbar__label {
+  color: white;
+  font-weight: bold;
+}
+
+.rpv-zoom__popover-target span {
+  color: white;
+}
+
+.rpv-core__minimal-button span {
+  color: white;
+}
+
+.rpv-core__popover-body {
+  background-color: #0a5ea8;
+}
+
+.rpv-core__menu-item-label {
+  color: white;
+}

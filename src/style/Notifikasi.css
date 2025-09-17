@@ -1,0 +1,31 @@
+.buttonContainer {
+  margin-right: 120px;
+}
+
+.Table {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 100px;
+  margin-right: 100px;
+}
+
+@media (max-width: 768px) {
+  .buttonContainer {
+    margin-right: 75px;
+  }
+
+  .Table {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .search-icon {
+    position: relative;
+    left: 270px;
+    margin-top: 10px;
+    transform: translateY(-80%);
+    color: #999;
+  }
+}

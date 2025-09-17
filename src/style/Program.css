@@ -1,0 +1,182 @@
+.program-add-container {
+  margin-top: 100px;
+  margin-left: 70px;
+  margin-right: 70px;
+}
+
+.header-section.add-pro {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.back-and-title.add-pro {
+  display: flex;
+  align-items: center;
+}
+
+.back-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.page-title {
+  color: #0a5ea8;
+  font-weight: bold;
+  font-size: 30px;
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+.draft-badge {
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.form-container {
+  margin: 30px 70px;
+}
+
+.file-preview-section {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.preview-img {
+  margin-top: 10px;
+  margin-right: 30px;
+  margin-bottom: 20px;
+}
+
+.preview-image {
+  width: 200px;
+  height: auto;
+  border-radius: 20px;
+}
+
+.form-row {
+  margin-bottom: 20px;
+}
+
+.action-buttons-tambahpro {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 20px;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+
+.cancel-button-tambahpro {
+  background-color: #6c757d;
+  color: white;
+  padding: 5px 15px;
+  font-weight: bold;
+  border-radius: 10px;
+  border: none;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.save-button-tambahpro {
+  background-color: #0d6efd;
+  color: white;
+  padding: 5px 20px;
+  font-weight: bold;
+  border-radius: 10px;
+  border: none;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .program-add-container {
+    margin: 50px 20px;
+  }
+
+  .header-section.add-pro {
+    margin-left: -60px;
+  }
+
+  .back-and-title.add-pro {
+    margin-top: 40px;
+    margin-left: 200px;
+  }
+
+  .card.tambah-program {
+    margin-top: -10px;
+    margin-left: -30px;
+    margin-right: -30px;
+  }
+
+  .draft-badge {
+    margin-top: 10px;
+    align-self: flex-start;
+  }
+
+  .form-container {
+    margin-right: 60px;
+  }
+
+  .file-preview-section {
+    flex-direction: column;
+  }
+
+  .preview-img {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+
+  .action-buttons-tambahpro {
+    justify-content: center;
+    margin-top: 20px;
+    margin-left: 70px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .back-and-title.add-pro {
+    margin-top: 20px;
+    padding-right: 35px;
+  }
+
+  .back-and-title.add-pro h4 {
+    font-size: 24pt;
+  }
+
+  .card.tambah-program {
+    margin-left: -30px;
+    margin-right: -30px;
+  }
+
+  .back-button {
+    margin-left: -30px;
+  }
+
+  .fileupload.mb-3.mt-4.up {
+    margin-right: 60px;
+  }
+
+  .page-title {
+    font-size: 24px;
+  }
+
+  .form-container {
+    margin-left: -20px;
+    margin-right: -20px;
+  }
+
+  .action-buttons-tambahpro {
+    padding-left: 120px;
+    margin-left: 10px;
+  }
+
+  .cancel-button-tambahpro,
+  .save-button-tambahpro {
+    padding: 8px 15px;
+    font-size: 14px;
+    width: auto;
+  }
+}

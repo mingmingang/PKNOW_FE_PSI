@@ -1,0 +1,113 @@
+a div:hover {
+  background-color: #eee;
+}
+
+.sidebarMenu {
+  width: 13vw;
+}
+
+.sidebarMenu-hidden {
+  display: none;
+}
+
+:root {
+  --responsiveContainer-margin-left: 13vw;
+  --sidebarMenu-width: 13vw;
+}
+
+.responsiveContainer {
+  margin-left: var(--responsiveContainer-margin-left);
+}
+
+.backSearch .input-wrapper {
+  height: 40px;
+  border: none;
+}
+
+.backSearch .input-wrapper button {
+  margin-top: -60px;
+  margin-left: 650px;
+}
+
+@media only screen and (max-width: 1280px) {
+  .sidebarMenu {
+    width: var(---sidebarMenu-width);
+  }
+
+  :root {
+    --responsiveContainer-margin-left: 0;
+  }
+
+  .sidebarMenu-hidden {
+    display: none;
+  }
+}
+
+dialog {
+  margin-top: 20px;
+  overflow-x: auto;
+  width: calc(100% - 20px);
+  pointer-events: auto;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.175);
+  border-radius: 0.5rem;
+  outline: 0;
+  padding: 0;
+}
+
+dialog::backdrop {
+  backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.fixed-when-scroll {
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+  background: white;
+}
+
+.bg-logo-astra {
+  position: relative;
+}
+
+.bg-logo-astra::after {
+  content: "";
+  background-image: url("assets/Background_IMG_Logo.png");
+  background-repeat: no-repeat;
+  background-size: 350px 350px;
+  background-position: center;
+  opacity: 0.1;
+  position: fixed;
+  top: 20%;
+  right: 0;
+  bottom: 0;
+  left: 13%;
+  z-index: -1;
+}
+
+h5.card-title-pustaka {
+  color: white;
+}
+
+h5.card-title-pustaka:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .backSearch .input-wrapper button {
+    margin-left: 250px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1080px) {
+  .backSearch .input-wrapper {
+    height: 40px;
+    border: none;
+  }
+
+  .backSearch .input-wrapper button {
+    margin-left: 250px;
+  }
+}

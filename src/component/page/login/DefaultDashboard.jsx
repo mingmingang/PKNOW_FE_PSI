@@ -89,6 +89,8 @@ export default function DefaultDashboard() {
         prodi: selectedRole.Pro_ID,
       });
 
+      console.log("tokennya", token);
+
       if (token === "ERROR") {
         throw new Error(
           "Terjadi kesalahan: Gagal mendapatkan token autentikasi."
@@ -106,6 +108,8 @@ export default function DefaultDashboard() {
         prodi: selectedRole.Pro_ID,
         nama: selectedRole.Nama,
       };
+
+      console.log("dataanya", updatedUserInfo)
 
       let user = encryptId(JSON.stringify(updatedUserInfo));
       const OneHourFromNow = new Date(new Date().getTime() + 60 * 60 * 1000);

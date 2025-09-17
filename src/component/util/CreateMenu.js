@@ -3,12 +3,20 @@ import UseFetch from "./UseFetch";
 
 const CreateMenu = async (role, prodi) => {
   try {
+
     const data = await UseFetch(API_LINK + "Utilities/GetListMenu", {
       username: "",
       role: role,
       application: APPLICATION_ID,
-      prodi: prodi,
+      prodi : prodi
     });
+
+    console.log("data menuuuus", {
+      username: "",
+      role: role,
+      application: APPLICATION_ID,
+      prodi : prodi
+    })
 
     let lastHeadkey = "";
     const transformedMenu = [
@@ -27,7 +35,7 @@ const CreateMenu = async (role, prodi) => {
         transformedMenu.push({
           head: item.nama,
           headkey: lastHeadkey,
-          link: item.link === "#" ? item.link : ROOT_LINK + item.link,
+          link: item.link === "#" ? item.link : ROOT_LINK +  item.link,
           sub: [],
         });
       } else {
@@ -40,13 +48,14 @@ const CreateMenu = async (role, prodi) => {
             link:
               item.link === "lj_create"
                 ? "https://www.ljcreatelms.com/"
-                : ROOT_LINK + item.link,
+                : ROOT_LINK +  item.link,
           });
         }
       }
-    });
+    });    
     return transformedMenu;
   } catch (error) {
+    console.error("Error occurred while fetching the menu:", error);
     return [];
   }
 };

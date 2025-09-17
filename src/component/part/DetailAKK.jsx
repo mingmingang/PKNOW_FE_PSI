@@ -1,9 +1,6 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faGraduationCap,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
+import { faGraduationCap, faUser } from "@fortawesome/free-solid-svg-icons";
 import Button from "./Button copy";
 import "../../style/DetailAKK.css";
 import Konfirmasi from "./Konfirmasi";
@@ -370,7 +367,11 @@ export default function DetailAKK({ prodi, onChangePage, withID }) {
             <div className="prodi" style={{ marginBottom: "-20px" }}>
               <FontAwesomeIcon
                 icon={faGraduationCap}
-                style={{ fontSize: "1.5rem", marginRight: "-5px", marginTop:"-15px" }}
+                style={{
+                  fontSize: "1.5rem",
+                  marginRight: "-5px",
+                  marginTop: "-15px",
+                }}
               />
               <p className="text-gray-700" style={{ fontFamily: "Poppins" }}>
                 {withID.prodi.nama}

@@ -18,6 +18,16 @@ export default function Filter({ children, handleSearch, name = "Filter" }) {
       />
       <div className="dropdown-menu p-4" style={{ width: "350px" }}>
         {children}
+
+        {/* button hanya muncul kalau bukan "Urutkan" */}
+        {name !== "Urutkan" && (
+          <Button
+            classType="primary px-4 d-flex justify-content-end rounded-3"
+            title="Cari"
+            onClick={handleSearch}
+            label={name}
+          />
+        )}
       </div>
     </>
   );

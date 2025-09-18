@@ -17,6 +17,7 @@ import AppContext_test from "../../master-test/TestContext";
 import Cookies from "js-cookie";
 import { decryptId } from "../../../../util/Encryptor";
 import { Stepper, Step, StepLabel, Box } from "@mui/material";
+import UseFetch from "../../../../util/UseFetch";
 import BackPage from "../../../../../assets/backPage.png";
 import Konfirmasi from "../../../../part/Konfirmasi";
 
@@ -119,24 +120,28 @@ export default function MasterPostTestEditNot({ onChangePage, withID }) {
   };
 
   const uploadFile = async (file) => {
-    try {
-      const result = await uploadFile(file);
-      return result;
-    } catch (error) {
-      const formData = new FormData();
-      formData.append("file", file);
+    const formData = new FormData();
+    formData.append("file", file);
 
+    try {
       const response = await fetch(`${API_LINK}Upload/UploadFile`, {
         method: "POST",
         body: formData,
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json();
-      return data;
+      const responseData = await response.json();
+
+      if (!responseData || !responseData.Hasil) {
+        throw new Error("Upload file gagal, respons server tidak valid.");
+      }
+
+      return responseData;
+    } catch (error) {
+      throw error;
     }
   };
 
@@ -396,188 +401,129 @@ export default function MasterPostTestEditNot({ onChangePage, withID }) {
     }
 
     try {
-      const sectionResponse = await fetch(API_LINK + "Section/CreateSection", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dataSection),
-      });
-      const sectionData = await sectionResponse.json();
+      const sectionResponse = await UseFetch(
+        API_LINK + "Section/CreateSection",
+        dataSection
+      );
 
-      if (sectionData[0]?.hasil === "OK") {
-        const sectionId = sectionData[0].newID;
-        AppContext_master.dataIdSectionPretest = sectionId;
-        formData.timer = convertTimeToSeconds(timer);
-
-        const quizResponse = await fetch(API_LINK + "Quiz/SaveDataQuiz", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            materiId: Materi.Key,
-            sec_id: sectionId,
-            quizDeskripsi: formData.quizDeskripsi,
-            quizTipe: "Posttest",
-            tanggalAwal: "",
-            tanggalAkhir: "",
-            timer: formData.timer,
-            status: "Aktif",
-            createdby: activeUser,
-            type: "Post-Test",
-          }),
-        });
-        const quizData = await quizResponse.json();
-
-        if (!quizData || quizData.length === 0) {
-          Swal.fire({
-            title: "Gagal!",
-            text: "Data yang dimasukkan tidak valid atau kurang",
-            icon: "error",
-            confirmButtonText: "OK",
-          });
-          return;
-        }
-
-        const quizId = quizData[0].hasil;
-
-        for (const question of formContent) {
-          const formQuestion = {
-            quizId: quizId,
-            soal: question.text,
-            tipeQuestion: question.type,
-            gambar: question.gambar ?? "",
-            status: "Aktif",
-            quecreatedby: activeUser,
-            point: question.point,
-          };
-
-          const uploadPromises = [];
-          if (question.type === "Essay" || question.type === "Praktikum") {
-            if (question.selectedFile) {
-              try {
-                const uploadResult = await uploadFile(question.selectedFile);
-                formQuestion.gambar = uploadResult.Hasil;
-              } catch (uploadError) {
-                Swal.fire({
-                  title: "Gagal!",
-                  text: `Gagal mengunggah gambar untuk pertanyaan: ${question.text}`,
-                  icon: "error",
-                  confirmButtonText: "OK",
-                });
-                return;
-              }
-            } else {
-              formQuestion.gambar = "";
-            }
-          } else if (question.type === "Pilgan") {
-            formQuestion.gambar = "";
-          }
-
-          try {
-            await Promise.all(uploadPromises);
-            const questionResponse = await fetch(
-              API_LINK + "Question/SaveDataQuestion",
-              {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formQuestion),
-              }
-            );
-            const questionData = await questionResponse.json();
-
-            if (!questionData || questionData.length === 0) {
-              Swal.fire({
-                title: "Gagal!",
-                text: "Data yang dimasukkan tidak valid atau kurang",
-                icon: "error",
-                confirmButtonText: "OK",
-              });
-              return;
-            }
-
-            const questionId = questionData[0].hasil;
-
-            if (question.type === "Essay" || question.type === "Praktikum") {
-              const answerData = {
-                urutanChoice: "",
-                answerText: question.correctAnswer
-                  ? question.correctAnswer
-                  : "0",
-                questionId: questionId,
-                nilaiChoice: question.point,
-                quecreatedby: activeUser,
-              };
-
-              try {
-                await fetch(API_LINK + "Choice/SaveDataChoice", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify(answerData),
-                });
-              } catch (error) {
-                Swal.fire({
-                  title: "Gagal!",
-                  text: "Data yang dimasukkan tidak valid atau kurang",
-                  icon: "error",
-                  confirmButtonText: "OK",
-                });
-              }
-            } else if (question.type === "Pilgan") {
-              for (const [optionIndex, option] of question.options.entries()) {
-                const answerData = {
-                  urutanChoice: optionIndex + 1,
-                  answerText: option.label,
-                  questionId: questionId,
-                  nilaiChoice: option.point || 0,
-                  quecreatedby: activeUser,
-                  cho_tipe: question.jenis === "Tunggal" ? "Tunggal" : "Jamak",
-                };
-
-                try {
-                  await fetch(API_LINK + "Choice/SaveDataChoice", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(answerData),
-                  });
-                } catch (error) {
-                  Swal.fire({
-                    title: "Gagal!",
-                    text: "Data yang dimasukkan tidak valid atau kurang",
-                    icon: "error",
-                    confirmButtonText: "OK",
-                  });
-                }
-              }
-            }
-            setResetStepper((prev) => !prev + 1);
-          } catch (error) {
-            Swal.fire({
-              title: "Gagal!",
-              text: "Data yang dimasukkan tidak valid atau kurang",
-              icon: "error",
-              confirmButtonText: "OK",
-            });
-          }
-        }
-        Swal.fire({
-          title: "Berhasil!",
-          text: "Post Test berhasil ditambahkan",
-          icon: "success",
-          confirmButtonText: "OK",
-        }).then(() => {
-          setFormContent([]);
-          setSelectedOptions([]);
-          setErrors({});
-          setTimer("");
-          setIsButtonDisabled(true);
-          window.location.reload();
-        });
-      } else {
-        Swal.fire({
-          title: "Gagal!",
-          text: "Terjadi kesalahan saat menyimpan data Section.",
-          icon: "error",
-          confirmButtonText: "OK",
-        });
+      if (sectionResponse === "ERROR" || sectionResponse[0]?.hasil !== "OK") {
+        throw new Error("Terjadi kesalahan saat menyimpan data Section.");
       }
+
+      const sectionId = sectionResponse[0].newID;
+      AppContext_master.dataIdSectionPretest = sectionId;
+      formData.timer = convertTimeToSeconds(timer);
+
+      const quizPayload = {
+        materiId: Materi.Key,
+        sec_id: sectionId,
+        quizDeskripsi: formData.quizDeskripsi,
+        quizTipe: "Posttest",
+        tanggalAwal: "",
+        tanggalAkhir: "",
+        timer: formData.timer,
+        status: "Aktif",
+        createdby: activeUser,
+        type: "Post-Test",
+      };
+
+      const quizResponse = await UseFetch(
+        API_LINK + "Quiz/SaveDataQuiz",
+        quizPayload
+      );
+      if (quizResponse === "ERROR" || !quizResponse.length) {
+        throw new Error("Data quiz tidak valid atau gagal disimpan.");
+      }
+
+      const quizId = quizResponse[0].hasil;
+
+      for (const question of formContent) {
+        let finalImageUrl = "";
+
+        if (question.selectedFile) {
+          const uploadResult = await uploadFile(question.selectedFile);
+          if (uploadResult === "ERROR" || !uploadResult.Hasil) {
+            throw new Error(
+              `Gagal mengunggah gambar untuk pertanyaan: ${question.text}`
+            );
+          }
+          finalImageUrl = uploadResult.Hasil;
+        } else if (question.gambar) {
+          finalImageUrl = question.gambar;
+        }
+
+        const formQuestion = {
+          quizId: quizId,
+          soal: question.text,
+          tipeQuestion: question.type,
+          gambar: finalImageUrl,
+          status: "Aktif",
+          quecreatedby: activeUser,
+          point: question.point || 0,
+        };
+
+        const questionResponse = await UseFetch(
+          API_LINK + "Question/SaveDataQuestion",
+          formQuestion
+        );
+        if (questionResponse === "ERROR" || !questionResponse.length) {
+          throw new Error(`Gagal menyimpan pertanyaan: ${question.text}`);
+        }
+
+        const questionId = questionResponse[0].hasil;
+
+        if (question.type === "Essay" || question.type === "Praktikum") {
+          const answerData = {
+            urutanChoice: "",
+            answerText: question.correctAnswer || "0",
+            questionId: questionId,
+            nilaiChoice: question.point || 0,
+            quecreatedby: activeUser,
+          };
+          const answerResponse = await UseFetch(
+            API_LINK + "Choice/SaveDataChoice",
+            answerData
+          );
+          if (answerResponse === "ERROR") {
+            throw new Error(
+              "Gagal menyimpan jawaban untuk pertanyaan Essay/Praktikum."
+            );
+          }
+        } else if (question.type === "Pilgan") {
+          for (const [optionIndex, option] of question.options.entries()) {
+            const answerData = {
+              urutanChoice: optionIndex + 1,
+              answerText: option.label,
+              questionId: questionId,
+              nilaiChoice: option.point || 0,
+              quecreatedby: activeUser,
+              cho_tipe: question.jenis === "Tunggal" ? "Tunggal" : "Jamak",
+            };
+            const answerResponse = await UseFetch(
+              API_LINK + "Choice/SaveDataChoice",
+              answerData
+            );
+            if (answerResponse === "ERROR") {
+              throw new Error(`Gagal menyimpan pilihan: ${option.label}`);
+            }
+          }
+        }
+        setResetStepper((prev) => !prev + 1);
+      }
+
+      Swal.fire({
+        title: "Berhasil!",
+        text: "Post Test berhasil ditambahkan",
+        icon: "success",
+        confirmButtonText: "OK",
+      }).then(() => {
+        setFormContent([]);
+        setSelectedOptions([]);
+        setErrors({});
+        setTimer("");
+        setIsButtonDisabled(true);
+        window.location.reload();
+      });
     } catch (error) {
       Swal.fire({
         title: "Gagal!",

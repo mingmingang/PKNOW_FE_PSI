@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Button from "../../../part/Button";
 import Loading from "../../../part/Loading";
 import { Stepper } from "react-form-stepper";
-import axios from "axios";
+import UseFetch from "../../../../util/UseFetch";
 import { API_LINK } from "../../../util/Constants";
 import AppContext_test from "../../master-test/TestContext";
 import Alert from "../../../part/Alert";
@@ -70,7 +70,7 @@ export default function MasterPostTestDetail({ onChangePage, withID }) {
 
     try {
       while (true) {
-        const data = await axios.post(API_LINK + "Quiz/GetQuizByID", {
+        const data = await UseFetch (API_LINK + "Quiz/GetQuizByID", {
           id: AppContext_test.DetailMateri?.Key,
           tipe: "Posttest",
         });
@@ -118,7 +118,7 @@ export default function MasterPostTestDetail({ onChangePage, withID }) {
 
     try {
       while (true) {
-        const { data } = await axios.post(API_LINK + "Quiz/GetDataQuestion", {
+        const { data } = await UseFetch (API_LINK + "Quiz/GetDataQuestion", {
           id: AppContext_test.DetailMateri?.Key,
           status: "Aktif",
           Tipe: "Posttest",

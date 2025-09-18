@@ -14,7 +14,6 @@ import Loading from "../../part/Loading";
 import Search from "../../part/Search";
 import Cookies from "js-cookie";
 import { decryptId } from "../../util/Encryptor";
-import axios from "axios";
 import "../../../index.css";
 
 let activeUser = "";
@@ -68,7 +67,7 @@ export default function NotifikasiIndex() {
 
     if (result) {
       try {
-        const response = await axios.post(
+        const response = await UseFetch(
           API_LINK + "Utilities/AllSetReadNotifikasi",
           {
             application: APPLICATION_ID,
@@ -76,9 +75,9 @@ export default function NotifikasiIndex() {
           }
         );
 
-        if (response.data && response.data.length !== 0) {
+        if (response !== "ERROR" && response.length !== 0) {
           window.location.reload();
-          return response.data;
+          return response;
         }
         return [];
       } catch (error) {

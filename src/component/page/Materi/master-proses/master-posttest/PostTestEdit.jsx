@@ -310,24 +310,25 @@ export default function MasterPostTestEdit({ onChangePage, withID }) {
             }
 
             if (question.Gambar) {
-              const gambarPromise = fetch(
-                `${API_LINK}Utilities/DownloadFile?namaFile=${encodeURIComponent(
-                  question.Gambar
-                )}`
+              formattedQuestions[question.Key].previewUrl = `${API_LINK}Upload/DownloadFile?namaFile=${encodeURIComponent(
+                question.Gambar
+              )}`;
+
+              const gambarPromise = UseFetch(
+                `${API_LINK}Utilities/DownloadFile`,
+                { namaFile: question.Gambar },
+                "GET",
+                "blob"
               )
                 .then((response) => {
-                  if (!response.ok) {
-                    throw new Error(
-                      `Error fetching gambar: ${response.statusText}`
-                    );
+                  if (response !== "ERROR" && response.blob) {
+                    const url = URL.createObjectURL(response.blob);
+                    formattedQuestions[question.Key].gambar = url;
                   }
-                  return response.blob();
                 })
-                .then((blob) => {
-                  const url = URL.createObjectURL(blob);
-                  formattedQuestions[question.Key].gambar = url;
-                })
-                .catch((error) => {});
+                .catch((error) => {
+                  console.error("Error saat mengambil gambar:", error);
+                });
 
               filePromises.push(gambarPromise);
             }

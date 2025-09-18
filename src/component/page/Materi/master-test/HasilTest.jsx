@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { API_LINK } from "../../../util/Constants";
 import Button from "../../../part/Button copy";
 import Loading from "../../../part/Loading";
-import axios from "axios";
+import UseFetch from "../../../util/UseFetch";
 import AppContext_test from "./TestContext";
 
 export default function MasterTestHasilTest({
@@ -59,18 +59,17 @@ export default function MasterTestHasilTest({
     const fetchDataWithRetry = async (retries = 10, delay = 5000) => {
       for (let i = 0; i < retries; i++) {
         try {
-          const response = await axios.post(
-            API_LINK + "Quiz/GetDataResultQuiz",
-            {
-              quizId: AppContext_test.materiId,
-              karyawanId: AppContext_test.activeUser,
-              tipeQuiz: AppContext_test.quizType,
-            }
-          );
+          const response = await UseFetch(API_LINK + "Quiz/GetDataResultQuiz", {
+            quizId: AppContext_test.materiId,
+            karyawanId: AppContext_test.activeUser,
+            tipeQuiz: AppContext_test.quizType,
+          });
 
-          if (response.data.length != 0) {
-            AppContext_test.reviewQuizId = response.data[0].Key;
-            return response.data;
+          if (response !== "ERROR" && response.length !== 0) {
+            AppContext_test.reviewQuizId = response[0].Key;
+            return response;
+          } else if (response === "ERROR") {
+            throw new Error("Error fetching data");
           }
         } catch (error) {
           if (i < retries - 1) {

@@ -8,7 +8,7 @@ import {
   faSyncAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import "../../style/ExcelViewer.css";
-import axios from "axios";
+import UseFetch from "../util/UseFetch";
 
 const ExcelViewer = ({ fileUrl, fileData, width = "1140px" }) => {
   const [data, setData] = useState([]);
@@ -47,11 +47,13 @@ const ExcelViewer = ({ fileUrl, fileData, width = "1140px" }) => {
 
   const setupDownload = async (fileUrl, formattedFileName) => {
     try {
-      const response = await axios.get(fileUrl, {
-        responseType: "blob",
-      });
+      const response = await UseFetch(fileUrl, {}, "GET");
+      
+      if (response === "ERROR") {
+        throw new Error("Gagal mengunduh file");
+      }
 
-      const blob = new Blob([response.data]);
+      const blob = new Blob([response]);
       const blobUrl = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = blobUrl;
@@ -60,7 +62,9 @@ const ExcelViewer = ({ fileUrl, fileData, width = "1140px" }) => {
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(blobUrl);
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error downloading file:", error);
+    }
   };
 
   return (

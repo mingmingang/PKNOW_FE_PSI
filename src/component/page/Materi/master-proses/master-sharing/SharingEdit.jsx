@@ -165,7 +165,6 @@ export default function MasterSharingEdit({ onChangePage }) {
 
       if (isPDF) {
         const apiUrl = `${API_LINK}Upload/GetFile/${namaFile}?inline=true`;
-
         const shortFileName = namaFile.split("_")[1] || namaFile.split(".")[0];
         const newWindow = window.open(apiUrl, "_blank");
 

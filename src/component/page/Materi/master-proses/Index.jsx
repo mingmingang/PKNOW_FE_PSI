@@ -490,7 +490,7 @@ export default function MasterProsesIndex({ onChangePage }) {
           </div>
           <div className="mt-1">
             {isEmpty ? (
-              <div className="" style={{ margin: "10px 70px" }}>
+              <div className="container">
                 <Alert
                   type="warning mt-3"
                   message="Tidak ada data! Silahkan cari materi diatas.."

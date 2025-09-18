@@ -5,6 +5,7 @@ import Alert from "./Alert";
 import Loading from "./Loading";
 import axios from "axios";
 import AppContext_test from "../page/master-test/TestContext";
+import UseFetch from "../util/UseFetch";
 
 export default function KMS_VideoViewer({ videoFileName }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -12,37 +13,34 @@ export default function KMS_VideoViewer({ videoFileName }) {
   const [videoUrl, setVideoUrl] = useState(null);
 
   useEffect(() => {
-    if (AppContext_test.urlMateri) {
+  if (AppContext_test.urlMateri) {
+    const fetchVideoFile = async () => {
       setIsLoading(true);
+      setIsError(false);
 
-      const fetchData = async () => {
-        try {
-          const response = await axios.get(`${API_LINK}Upload/GetFile`, {
-            params: {
-              namaFile: AppContext_test.urlMateri,
-            },
-            responseType: "arraybuffer",
-          });
-
-          const blob = new Blob([response.data], {
-            type: response.headers["content-type"],
-          });
-          const url = URL.createObjectURL(blob);
-          setVideoUrl(url);
-          setIsError(false);
-          setIsLoading(false);
-        } catch (error) {
-          setIsError(true);
-          setIsLoading(false);
-        }
-      };
-
-      fetchData();
-    } else {
-      setIsError(true);
+      const blobResult = await UseFetch(
+        `${API_LINK}Upload/GetFile`,          
+        { namaFile: AppContext_test.urlMateri }, 
+        "GET",                               
+        "blob"                                 
+      );
+      
+      if (blobResult === "ERROR") {
+        setIsError(true);
+      } else {
+        const url = URL.createObjectURL(blobResult);
+        setVideoUrl(url);
+      }
+      
       setIsLoading(false);
-    }
-  }, [videoFileName, AppContext_test.urlMateri, isError]);
+    };
+
+    fetchVideoFile();
+  } else {
+    setIsError(true);
+    setIsLoading(false);
+  }
+}, [AppContext_test.urlMateri]);
 
   return (
     <>

@@ -45,40 +45,67 @@ export default function MastermateriAdd({ onChangePage }) {
 
   const Forum = AppContext_test.ForumForm;
 
-  const previewFile = async (namaFile) => {
+  const previewFile = async (namaFile, fileType = "") => {
     try {
       namaFile = namaFile.trim();
-      const data = await UseFetch(`${API_LINK}Upload/GetFile/${namaFile}`, {
-        method: "GET",
-        headers: {
-          Accept: "application/octet-stream",
-        },
-      });
 
-      if (data === "ERROR") {
-        throw new Error("Gagal mengambil file");
-      }
+      const isPDF =
+        fileType === "application/pdf" ||
+        namaFile.toLowerCase().endsWith(".pdf");
 
-      const blob = new Blob([data], {
-        type: "application/octet-stream",
-      });
+      if (isPDF) {
+        const apiUrl = `${API_LINK}Upload/GetFile/${namaFile}?inline=true`;
+        const shortFileName = namaFile.split("_")[1] || namaFile.split(".")[0];
+        const newWindow = window.open(apiUrl, "_blank");
 
-      const url = URL.createObjectURL(blob);
-
-      if (namaFile.toLowerCase().endsWith(".pdf")) {
-        window.open(url, "_blank");
+        if (newWindow) {
+          setTimeout(() => {
+            try {
+              newWindow.document.title = shortFileName;
+            } catch (e) {}
+          }, 500);
+        }
       } else {
+        const response = await fetch(`${API_LINK}Upload/GetFile/${namaFile}`, {
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("jwtToken"),
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Tidak dapat mengambil file");
+        }
+
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+
+        const judulMateri =
+          AppContext_master.MateriForm?.Judul || "SharingExpert";
+        const formattedFileName = `Sharing Expert - ${judulMateri}`;
+
         const link = document.createElement("a");
         link.href = url;
-        link.download = namaFile;
+
+        let extension = "";
+        const actualFileType = fileType || blob.type;
+        if (actualFileType.includes("video")) extension = ".mp4";
+        else if (actualFileType.includes("word")) extension = ".docx";
+        else if (actualFileType.includes("excel")) extension = ".xlsx";
+        else if (actualFileType.includes("powerpoint")) extension = ".pptx";
+        else if (actualFileType.includes("zip")) extension = ".zip";
+        else {
+          const originalExt = namaFile.split(".").pop();
+          extension = originalExt ? `.${originalExt}` : "";
+        }
+
+        link.download = `${formattedFileName}${extension}`;
         link.click();
+
+        setTimeout(() => URL.revokeObjectURL(url), 10000);
       }
     } catch (error) {
-      SweetAlert(
-        "Error",
-        "Tidak dapat menampilkan pratinjau. Silakan unduh file.",
-        "error"
-      );
+      alert("Tidak dapat menampilkan pratinjau. Silakan unduh file.");
     }
   };
 

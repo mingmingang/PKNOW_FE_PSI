@@ -69,7 +69,7 @@ export default function DefaultDashboard() {
       window.location.href = "/beranda_prodi";
     } else if (role === "KARYAWAN") {
       window.location.href = "/beranda_tenaga_kependidikan";
-    } else if (role === "MAHASISWA") {
+    } else if (role === "Mahasiswa") {
       window.location.href = "/beranda_mahasiswa";
     } else {
       window.location.href = "/";

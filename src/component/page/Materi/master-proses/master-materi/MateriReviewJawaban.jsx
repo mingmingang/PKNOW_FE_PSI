@@ -321,7 +321,7 @@ export default function MasterMateriReviewJawaban({
   const handleSaveReview = () => {
     Swal.fire({
       title: "Apakah anda yakin sudah selesai?",
-      text: "Jawaban akan disimpan dan tidak dapat diubah lagi.",
+      text: "Penilaian akan disimpan dan tidak dapat diubah lagi.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Ya, submit",

@@ -5,7 +5,7 @@ import Table from "../../../part/Table";
 import Alert from "../../../part/Alert";
 import Loading from "../../../part/Loading";
 import KMS_Rightbar from "../../../part/RightBar";
-import axios from "axios";
+import UseFetch from "../../../util/UseFetch";
 import AppContext_test from "./TestContext";
 import Cookies from "js-cookie";
 import { decryptId } from "../../../util/Encryptor";
@@ -35,51 +35,75 @@ export default function MasterTestPreTest({
     }
   }
 
-  function onStartTest() {
+  async function onStartTest() {
     try {
-      axios
-        .post(API_LINK + "Quiz/SaveTransaksiQuiz", {
-          karyawanId: activeUser,
-          status: "",
-          createdBy: activeUser,
-          jumlahBenar: "",
-        })
-        .then((response) => {
-          const data = response.data;
-          if (data[0].hasil === "OK") {
-            AppContext_test.dataIdTrQuiz = data[0].tempIDAlt;
-            onChangePage(
-              "pengerjaantest",
-              "Posttest",
-              currentData.materiId,
-              currentData.quizId,
-              currentData.timer,
-              AppContext_test.dataIdTrQuiz,
-              currentData.timer
-            );
-          } else {
-            setIsError((prevError) => ({
-              ...prevError,
-              error: true,
-              message: "Terjadi kesalahan: Gagal menyimpan data Materi.",
-            }));
-          }
-        })
-        .catch((error) => {
-          setIsError((prevError) => ({
-            ...prevError,
-            error: true,
-            message: "Terjadi kesalahan: " + error.message,
-          }));
-        })
-        .finally(() => setIsLoading(false));
+      setIsLoading(true);
+      const data = await UseFetch(API_LINK + "Quiz/SaveTransaksiQuiz", {
+        karyawanId: activeUser,
+        status: "",
+        createdBy: activeUser,
+        jumlahBenar: "",
+      });
+
+      if (data === "ERROR") {
+        setIsError({
+          error: true,
+          message: "Terjadi kesalahan: Gagal menyimpan data Materi.",
+        });
+        return;
+      }
+
+      if (data[0]?.hasil === "OK") {
+        await updateProgres();
+        AppContext_test.dataIdTrQuiz = data[0].tempIDAlt;
+        onChangePage(
+          "pengerjaantest",
+          "Posttest",
+          currentData.materiId,
+          currentData.quizId,
+          currentData.timer,
+          AppContext_test.dataIdTrQuiz,
+          currentData.timer
+        );
+      } else {
+        setIsError({
+          error: true,
+          message: "Terjadi kesalahan: Gagal menyimpan data Materi.",
+        });
+      }
     } catch (error) {
       setIsError({
         error: true,
-        message: "Failed to save forum data: " + error.message,
+        message: "Terjadi kesalahan: " + error.message,
       });
+    } finally {
       setIsLoading(false);
     }
+  }
+
+  async function updateProgres() {
+      let success = false;
+      let retryCount = 0;
+      let maxRetries = 10;
+  
+      while (!success && retryCount < maxRetries) {
+        try {
+          const response = await UseFetch(
+            API_LINK + "Materi/UpdatePoinProgresMateri",
+            {
+              materiId: AppContext_test.materiId,
+              kry_user: activeUser,
+              tipe: "Post-Test",
+            }
+          );
+  
+          if (response !== "ERROR") {
+            success = true;
+          }
+        } catch (error) {
+          retryCount += 1;
+        }
+      }
   }
 
   useEffect(() => {
@@ -174,17 +198,15 @@ export default function MasterTestPreTest({
     const fetchDataWithRetry_posttest = async (retries = 15, delay = 500) => {
       for (let i = 0; i < retries; i++) {
         try {
-          const response = await axios.post(
-            API_LINK + "Quiz/GetDataResultQuiz",
-            {
-              matId: AppContext_test.materiId,
-              quiTipe: "Posttest",
-              karyawanId: activeUser,
-            }
-          );
-          if (response.data.length !== 0) {
-            setDataDetailQuiz(response.data);
-            return response.data;
+          const data = await UseFetch(API_LINK + "Quiz/GetDataResultQuiz", {
+            matId: AppContext_test.materiId,
+            quiTipe: "Posttest",
+            karyawanId: activeUser,
+          });
+
+          if (data !== "ERROR" && data.length !== 0) {
+            setDataDetailQuiz(data);
+            return data;
           }
         } catch (error) {
           if (i < retries - 1) {
@@ -199,20 +221,17 @@ export default function MasterTestPreTest({
     const getListSection = async (retries = 10, delay = 2000) => {
       for (let i = 0; i < retries; i++) {
         try {
-          const response = await axios.post(
-            API_LINK + "Section/GetDataSectionByMateri",
-            {
-              mat_id: AppContext_test.materiId,
-              sec_type: "Post-Test",
-              sec_status: "Aktif",
-            }
-          );
+          const data = await UseFetch(API_LINK + "Section/GetDataSectionByMateri", {
+            mat_id: AppContext_test.materiId,
+            sec_type: "Post-Test",
+            sec_status: "Aktif",
+          });
 
-          if (response.data.length !== 0) {
-            idSection = response.data[0].SectionId;
-            return response.data;
+          if (data !== "ERROR" && data.length !== 0) {
+            idSection = data[0].SectionId;
+            return data;
           }
-        } catch (e) {
+        } catch (error) {
           if (i < retries - 1) {
             await new Promise((resolve) => setTimeout(resolve, delay));
           } else {
@@ -225,16 +244,14 @@ export default function MasterTestPreTest({
     const getQuiz_posttest = async (retries = 10, delay = 500) => {
       for (let i = 0; i < retries; i++) {
         try {
-          const quizResponse = await axios.post(
-            API_LINK + "Quiz/GetDataQuizByIdSection",
-            {
-              section: idSection,
-            }
-          );
-          if (quizResponse.data && quizResponse.data.length > 0) {
-            AppContext_test.IdQuiz = quizResponse.data[0].quizId;
-            setCurrentData(quizResponse.data[0]);
-            return quizResponse.data[0];
+          const data = await UseFetch(API_LINK + "Quiz/GetDataQuizByIdSection", {
+            section: idSection,
+          });
+
+          if (data !== "ERROR" && data.length > 0) {
+            AppContext_test.IdQuiz = data[0].quizId;
+            setCurrentData(data[0]);
+            return data[0];
           }
         } catch (error) {
           if (i < retries - 1) {

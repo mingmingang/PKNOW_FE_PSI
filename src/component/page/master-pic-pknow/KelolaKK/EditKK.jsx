@@ -304,7 +304,7 @@ export default function KKEdit({ onChangePage, withID }) {
               <div className="card">
                 <div className="card-body p-4">
                   <div className="row">
-                    <div className="col-lg-4 imageup">
+                    <div className="col-lg-6 imageup">
                       <div className="preview-img">
                         {filePreview ? (
                           <div

@@ -336,7 +336,7 @@ export default function MasterDaftarPustakaAdd({ onChangePage, withID }) {
             <div className="card">
               <div className="card-body p-4">
                 <div className="row">
-                  <div className="col-lg-4 box-image">
+                  <div className="col-lg-6 box-image">
                     <div className="file-preview">
                       <div className="preview-img">
                         {filePreview ? (
@@ -429,7 +429,7 @@ export default function MasterDaftarPustakaAdd({ onChangePage, withID }) {
                       placeholder="Masukan Kata Kunci"
                     />
                   </div>
-                  <div className="col-lg-4">
+                  <div className="mb-2">
                     <FileUpload
                       ref={fileDocumentRef}
                       forInput="pus_file"

@@ -6,7 +6,7 @@ import SweetAlert from "../../../util/SweetAlert";
 import UseFetch from "../../../util/UseFetch";
 import UploadFile from "../../../util/UploadFile";
 import Button from "../../../part/Button copy";
-import FileUpload from "../../../part/FileUpload";
+import FileUpload from "../../../part/FileUpload2";
 import KMS_Sidebar from "../../../part/KMS_SideBar";
 import styled from "styled-components";
 import Swal from "sweetalert2";
@@ -33,6 +33,7 @@ export default function PengerjaanTest({
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
   const [editorData, setEditorData] = useState({});
+  const [filePreviewUrls, setFilePreviewUrls] = useState({});
 
   useEffect(() => {
     const handleResize = () => {
@@ -163,10 +164,23 @@ export default function PengerjaanTest({
         return;
       }
 
+      const previewUrl = URL.createObjectURL(file);
+      const fileKey = `${currentIndex}-${id_question}`;
+
       setFileAnswers((prev) => ({
         ...prev,
-        [`${currentIndex}-${id_question}`]: file,
+        [fileKey]: file,
       }));
+
+      setFilePreviewUrls((prev) => {
+        if (prev[fileKey]) {
+          URL.revokeObjectURL(prev[fileKey]);
+        }
+        return {
+          ...prev,
+          [fileKey]: previewUrl,
+        };
+      });
 
       handleValueAnswer(
         "0",
@@ -174,18 +188,51 @@ export default function PengerjaanTest({
         "",
         "Praktikum",
         currentIndex,
-        event,
+        file,
         id_question
       );
     }
   };
 
-  const getUploadedFile = (currentIndex, id_question) => {
-    return (
-      fileAnswers[`${currentIndex}-${id_question}`]?.name ||
-      "Tidak ada file yang dipilih"
-    );
+  const getFileUrl = (currentIndex, id_question) => {
+    const fileKey = `${currentIndex}-${id_question}`;
+
+    if (filePreviewUrls[fileKey]) {
+      return filePreviewUrls[fileKey];
+    }
+
+    const savedAnswer = getSubmittedAnswer(id_question, "Praktikum");
+    if (savedAnswer && savedAnswer !== "") {
+      return `${API_LINK}Upload/GetFile/${savedAnswer}`;
+    }
+
+    return null;
   };
+
+  const getUploadedFile = (currentIndex, id_question) => {
+    const fileKey = `${currentIndex}-${id_question}`;
+
+    if (fileAnswers[fileKey]?.name) {
+      return fileAnswers[fileKey].name;
+    }
+
+    const savedAnswer = getSubmittedAnswer(id_question, "Praktikum");
+    if (savedAnswer && savedAnswer !== "") {
+      return "File sudah diupload sebelumnya";
+    }
+
+    return "Tidak ada file yang dipilih";
+  };
+
+  useEffect(() => {
+    return () => {
+      Object.values(filePreviewUrls).forEach((url) => {
+        if (url) {
+          URL.revokeObjectURL(url);
+        }
+      });
+    };
+  }, []);
 
   useEffect(() => {
     const checkStatus = () => {
@@ -346,7 +393,11 @@ export default function PengerjaanTest({
         (ans) => ans.id_question === id_question
       );
 
-      UploadFile(file.target).then((data) => {
+      const fileInput = {
+        files: [file],
+      };
+
+      UploadFile(fileInput).then((data) => {
         if (existingAnswerNonPilgan !== -1) {
           updatedAnswers[existingAnswerNonPilgan] = {
             urutan,
@@ -631,8 +682,13 @@ export default function PengerjaanTest({
     formDataRef.current.quizId = AppContext_test.quizId;
   }, [AppContext_test.quizId]);
 
-  const getSubmittedAnswer = (itemId) => {
+  const getSubmittedAnswer = (itemId, questionType) => {
     const answer = submittedAnswers.find((answer) => answer[1] === itemId);
+    if (!answer) return "";
+
+    if (questionType === "Praktikum") {
+      return answer[2];
+    }
     return answer ? he.decode(answer[2]) : "";
   };
 
@@ -753,22 +809,55 @@ export default function PengerjaanTest({
                   </div>
 
                   {item.type === "Praktikum" ? (
-                    <FileUpload
-                      forInput="jawaban_file"
-                      label="Jawaban (.zip)"
-                      formatFile=".zip"
-                      hasExisting={getUploadedFile(index + 1, item.id)}
-                      onChange={(event) =>
-                        handleFileChange(
-                          fileInputRef,
-                          ["zip"],
-                          event,
-                          index + 1,
-                          item.id
-                        )
-                      }
-                      style={{ width: "105vh" }}
-                    />
+                    <div>
+                      <FileUpload
+                        forInput="jawaban_file"
+                        label="Jawaban (.zip)"
+                        formatFile=".zip"
+                        hasExisting={
+                          fileAnswers[`${index + 1}-${item.id}`]?.name ||
+                          (getSubmittedAnswer(item.id, "Praktikum") &&
+                          getSubmittedAnswer(item.id, "Praktikum") !== ""
+                            ? "File sudah diupload sebelumnya"
+                            : null)
+                        }
+                        isBinary={true}
+                        showFileInfo={false}
+                        onChange={(event) =>
+                          handleFileChange(
+                            fileInputRef,
+                            ["zip"],
+                            event,
+                            index + 1,
+                            item.id
+                          )
+                        }
+                        style={{ width: "105vh" }}
+                      />
+
+                      {/* Tampilkan nama file sebagai link download */}
+                      <div className="mt-2">
+                        <small className="text-muted">
+                          Berkas saat ini:{" "}
+                          {fileAnswers[`${index + 1}-${item.id}`] ||
+                          getSubmittedAnswer(item.id, "Praktikum") ? (
+                            <a
+                              href={getFileUrl(index + 1, item.id)}
+                              download={
+                                fileAnswers[`${index + 1}-${item.id}`]?.name ||
+                                `jawaban-${item.id}.zip`
+                              }
+                              style={{ textDecoration: "none" }}
+                            >
+                              {fileAnswers[`${index + 1}-${item.id}`]?.name ||
+                                "Unduh Berkas"}
+                            </a>
+                          ) : (
+                            "Belum ada file yang diupload"
+                          )}
+                        </small>
+                      </div>
+                    </div>
                   ) : item.type === "Essay" ? (
                     <div>
                       <label className="form-label">Jawaban Anda:</label>

@@ -364,7 +364,7 @@ export default function PengenalanEdit({ onChangePage }) {
                     </div>
                   )}
                 </div>
-                <div className="file-upload">
+                <div className="">
                   <FileUpload
                     forInput="gambarMateri"
                     label="Gambar Materi (.jpg, .png)"
@@ -373,6 +373,7 @@ export default function PengenalanEdit({ onChangePage }) {
                     onChange={() => handleFileChange(fileGambarRef, "png,jpg")}
                     errorMessage={errors.gambar}
                     isRequired={true}
+                    style={{ maxWidth: "100%" }}
                   />
                 </div>
               </div>

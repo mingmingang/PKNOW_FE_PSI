@@ -304,11 +304,8 @@ export default function MasterForumEdit({ onChangePage }) {
                     type="text"
                     forInput="forumJudul"
                     label="Judul Forum"
-                    value={
-                      formData && formData.forumJudul
-                        ? decode(formData.forumJudul)
-                        : "Judul tidak tersedia"
-                    }
+                    value={formData && formData.forumJudul ? decode(formData.forumJudul) : ""}
+                    placeholder="Judul tidak tersedia"
                     onChange={handleInputChange}
                     errorMessage={errors.forumJudul}
                     isRequired

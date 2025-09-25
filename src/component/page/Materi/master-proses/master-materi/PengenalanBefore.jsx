@@ -361,7 +361,7 @@ export default function PengenalanBefore({ onChangePage }) {
         </div>
 
         <div className="card mb-4">
-          <div className="col-lg-4 mt-4" style={{ display: "flex" }}>
+          <div className="ml-4 mt-2" style={{ display: "flex" }}>
             <div className="preview-img">
               {filePreview ? (
                 <div
@@ -399,7 +399,7 @@ export default function PengenalanBefore({ onChangePage }) {
                 </div>
               )}
             </div>
-            <div className="file-upload">
+            <div className="">
               <FileUpload
                 forInput="gambarMateri"
                 label="Gambar Materi (.jpg, .png)"
@@ -407,6 +407,7 @@ export default function PengenalanBefore({ onChangePage }) {
                 ref={fileGambarRef}
                 onChange={() => handleFileChange(fileGambarRef, "png,jpg")}
                 errorMessage={errors.gambar}
+                style={{ maxWidth: "100%" }}
               />
             </div>
           </div>

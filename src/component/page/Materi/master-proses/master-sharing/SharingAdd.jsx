@@ -591,7 +591,7 @@ export default function MasterSharingAdd({ onChangePage }) {
                     handlePdfChange(fileInputRef, "pdf,docx,xlsx,pptx")
                   }
                   errorMessage={errors.mat_sharing_expert_pdf}
-                  style={{ width: "195%" }}
+                  style={{ maxWidth: "100%" }}
                 />
                 {AppContext_test.sharingExpertPDF && (
                   <a
@@ -617,7 +617,7 @@ export default function MasterSharingAdd({ onChangePage }) {
                   maxFileSize={250}
                   onChange={() => handleVideoChange(vidioInputRef, "mp4,mov")}
                   errorMessage={errors.mat_sharing_expert_video}
-                  style={{ width: "195%" }}
+                  style={{ maxWidth: "100%" }}
                 />
                 {AppContext_test.sharingExpertVideo && (
                   <a

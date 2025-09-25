@@ -11,6 +11,7 @@ import Alert from "../../../part/Alert";
 import AppContext_test from "../../master-test/TestContext";
 import uploadFile from "../../../util/UploadFile";
 import { Stepper, Step, StepLabel } from "@mui/material";
+import Cookies from "js-cookie";
 
 const steps = ["Materi", "Pretest", "Sharing Expert", "Forum", "Post Test"];
 
@@ -45,7 +46,7 @@ export default function MasterSharingDetailNot({ onChangePage }) {
         {
           method: "GET",
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("jwtToken"),
+            Authorization: "Bearer " + Cookies.get("jwtToken"),
           },
         }
       );

@@ -16,6 +16,7 @@ import AppContext_test from "../../master-test/TestContext";
 import BackPage from "../../../../../assets/backPage.png";
 import Konfirmasi from "../../../../part/Konfirmasi";
 import CustomStepper from "../../../../part/Stepp";
+import Cookies from "js-cookie";
 
 export default function MastermateriAdd({ onChangePage }) {
   const [errors, setErrors] = useState({});
@@ -69,7 +70,7 @@ export default function MastermateriAdd({ onChangePage }) {
         const response = await fetch(`${API_LINK}Upload/GetFile/${namaFile}`, {
           method: "GET",
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("jwtToken"),
+            Authorization: "Bearer " + Cookies.get("jwtToken"),
           },
         });
 

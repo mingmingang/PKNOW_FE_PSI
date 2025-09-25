@@ -454,13 +454,11 @@ export default function DetailAKK({ prodi, onChangePage, withID }) {
                               }}
                             />
                           </div>
-
-                          {/* Scrollable Container Start */}
                           <div
                             style={{
-                              maxHeight: "420px", // Atur sesuai kebutuhan
+                              maxHeight: "420px",
                               overflowY: "auto",
-                              paddingRight: "6px", // Agar scroll tidak terlalu nempel ke konten
+                              paddingRight: "6px",
                             }}
                           >
                             {listAnggota.length > 0 ? (

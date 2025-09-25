@@ -16,6 +16,7 @@ import AppContext_test from "../../master-test/TestContext";
 import { Stepper, Step, StepLabel, Box } from "@mui/material";
 import BackPage from "../../../../../assets/backPage.png";
 import Konfirmasi from "../../../../part/Konfirmasi";
+import Cookies from "js-cookie";
 
 const steps = [
   "Pengenalan",
@@ -134,7 +135,7 @@ export default function MastermateriEdit({ onChangePage }) {
         const response = await fetch(`${API_LINK}Upload/GetFile/${namaFile}`, {
           method: "GET",
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("jwtToken"),
+            Authorization: "Bearer " + Cookies.get("jwtToken"),
           },
         });
 

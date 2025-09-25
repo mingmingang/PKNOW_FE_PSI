@@ -68,7 +68,7 @@ export default function MasterSharingAdd({ onChangePage }) {
     mat_sharing_expert_video: string(),
   });
 
-   const previewFile = async (namaFile, fileType = "") => {
+  const previewFile = async (namaFile, fileType = "") => {
     try {
       namaFile = namaFile.trim();
 
@@ -92,7 +92,7 @@ export default function MasterSharingAdd({ onChangePage }) {
         const response = await fetch(`${API_LINK}Upload/GetFile/${namaFile}`, {
           method: "GET",
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("jwtToken"),
+            Authorization: "Bearer " + Cookies.get("jwtToken"),
           },
         });
 

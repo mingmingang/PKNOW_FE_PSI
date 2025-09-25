@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { API_LINK } from "../util/Constants";
 import Alert from "./Alert";
 import Loading from "./Loading";
-import axios from "axios";
 import AppContext_test from "../page/master-test/TestContext";
 import UseFetch from "../util/UseFetch";
 
@@ -13,34 +12,34 @@ export default function KMS_VideoViewer({ videoFileName }) {
   const [videoUrl, setVideoUrl] = useState(null);
 
   useEffect(() => {
-  if (AppContext_test.urlMateri) {
-    const fetchVideoFile = async () => {
-      setIsLoading(true);
-      setIsError(false);
+    if (AppContext_test.urlMateri) {
+      const fetchVideoFile = async () => {
+        setIsLoading(true);
+        setIsError(false);
 
-      const blobResult = await UseFetch(
-        `${API_LINK}Upload/GetFile`,          
-        { namaFile: AppContext_test.urlMateri }, 
-        "GET",                               
-        "blob"                                 
-      );
-      
-      if (blobResult === "ERROR") {
-        setIsError(true);
-      } else {
-        const url = URL.createObjectURL(blobResult);
-        setVideoUrl(url);
-      }
-      
+        const blobResult = await UseFetch(
+          `${API_LINK}Upload/GetFile`,
+          { namaFile: AppContext_test.urlMateri },
+          "GET",
+          "blob"
+        );
+
+        if (blobResult === "ERROR") {
+          setIsError(true);
+        } else {
+          const url = URL.createObjectURL(blobResult);
+          setVideoUrl(url);
+        }
+
+        setIsLoading(false);
+      };
+
+      fetchVideoFile();
+    } else {
+      setIsError(true);
       setIsLoading(false);
-    };
-
-    fetchVideoFile();
-  } else {
-    setIsError(true);
-    setIsLoading(false);
-  }
-}, [AppContext_test.urlMateri]);
+    }
+  }, [AppContext_test.urlMateri]);
 
   return (
     <>

@@ -27,7 +27,6 @@ const PowerPointViewerIframe = ({ fileUrl, fileData }) => {
   const setupDownload = async (fileUrl, formattedFileName) => {
     try {
       const response = await UseFetch(fileUrl, {}, "GET");
-      
       if (response === "ERROR") {
         throw new Error("Gagal mengunduh file");
       }

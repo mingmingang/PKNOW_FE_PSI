@@ -59,17 +59,17 @@ export default function DefaultDashboard() {
   const redirectBasedOnRole = (userInfo) => {
     const role = userInfo.peran;
 
-     if (
+    if (
       role === "PIC P-KNOW" ||
-      role === "PIC Kelompok Keahlian" ||
-      role === "Tenaga Pendidik"
+      role === "PIC KELOMPOK KEAHLIAN" ||
+      role === "DOSEN"
     ) {
       window.location.href = "/beranda_utama";
-    } else if (role === "Program Studi") {
+    } else if (role === "PRODI") {
       window.location.href = "/beranda_prodi";
     } else if (role === "KARYAWAN") {
       window.location.href = "/beranda_tenaga_kependidikan";
-    } else if (role === "Mahasiswa") {
+    } else if (role === "MAHASISWA") {
       window.location.href = "/beranda_mahasiswa";
     } else {
       window.location.href = "/";
@@ -89,8 +89,6 @@ export default function DefaultDashboard() {
         prodi: selectedRole.Pro_ID,
       });
 
-      console.log("tokennya", token);
-
       if (token === "ERROR") {
         throw new Error(
           "Terjadi kesalahan: Gagal mendapatkan token autentikasi."
@@ -108,8 +106,6 @@ export default function DefaultDashboard() {
         prodi: selectedRole.Pro_ID,
         nama: selectedRole.Nama,
       };
-
-      console.log("dataanya", updatedUserInfo)
 
       let user = encryptId(JSON.stringify(updatedUserInfo));
       const OneHourFromNow = new Date(new Date().getTime() + 60 * 60 * 1000);

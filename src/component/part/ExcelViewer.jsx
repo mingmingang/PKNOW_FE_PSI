@@ -48,7 +48,6 @@ const ExcelViewer = ({ fileUrl, fileData, width = "1140px" }) => {
   const setupDownload = async (fileUrl, formattedFileName) => {
     try {
       const response = await UseFetch(fileUrl, {}, "GET");
-      
       if (response === "ERROR") {
         throw new Error("Gagal mengunduh file");
       }

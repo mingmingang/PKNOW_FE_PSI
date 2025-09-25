@@ -7,7 +7,6 @@ import { API_LINK } from "../util/Constants";
 import ReactPlayer from "react-player";
 import WordViewer from "./DocumentViewer";
 import ExcelViewer from "./ExcelViewer";
-import axios from "axios";
 import { decode } from "he";
 import UseFetch from "../util/UseFetch";
 
@@ -62,27 +61,23 @@ export default function DetailDaftarPustaka({ onChangePage, withID }) {
     }
   }, [withID]);
 
-const setupDownload = async (fileUrl, formattedFileName) => {
-  try {
-    const blob = await UseFetch(fileUrl, {}, "GET", "blob");
-    if (blob === "ERROR" || !(blob instanceof Blob)) {
-      console.error("Gagal mengunduh file.");
-      return;
-    }
+  const setupDownload = async (fileUrl, formattedFileName) => {
+    try {
+      const blob = await UseFetch(fileUrl, {}, "GET", "blob");
+      if (blob === "ERROR" || !(blob instanceof Blob)) {
+        return;
+      }
 
-    const blobUrl = window.URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = blobUrl;
-    link.download = formattedFileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(blobUrl);
-    
-  } catch (error) {
-    console.error("Terjadi kesalahan pada proses download:", error);
-  }
-};
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = formattedFileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {}
+  };
 
   return (
     <div className="container" style={{ marginTop: "100px" }}>

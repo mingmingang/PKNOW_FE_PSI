@@ -123,7 +123,6 @@ export default function KMS_Rightbar({
       });
 
       if (result === "ERROR") {
-        console.error("Gagal memuat data materi.");
         return;
       }
 

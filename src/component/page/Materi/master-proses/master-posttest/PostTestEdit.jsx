@@ -310,15 +310,16 @@ export default function MasterPostTestEdit({ onChangePage, withID }) {
             }
 
             if (question.Gambar) {
-              formattedQuestions[question.Key].previewUrl = `${API_LINK}Upload/DownloadFile?namaFile=${encodeURIComponent(
+              formattedQuestions[
+                question.Key
+              ].previewUrl = `${API_LINK}Upload/DownloadFile?namaFile=${encodeURIComponent(
                 question.Gambar
               )}`;
 
               const gambarPromise = UseFetch(
-                `${API_LINK}Utilities/DownloadFile`,
-                { namaFile: question.Gambar },
-                "GET",
-                "blob"
+                `${API_LINK}Utilities/DownloadFile?namaFile=${question.Gambar}`,
+                {},
+                "GET"
               )
                 .then((response) => {
                   if (response !== "ERROR" && response.blob) {
@@ -326,9 +327,7 @@ export default function MasterPostTestEdit({ onChangePage, withID }) {
                     formattedQuestions[question.Key].gambar = url;
                   }
                 })
-                .catch((error) => {
-                  console.error("Error saat mengambil gambar:", error);
-                });
+                .catch((error) => {});
 
               filePromises.push(gambarPromise);
             }
@@ -718,6 +717,9 @@ export default function MasterPostTestEdit({ onChangePage, withID }) {
       const response = await fetch(`${API_LINK}Upload/UploadFile`, {
         method: "POST",
         body: formData,
+        headers: {
+          Authorization: "Bearer " + Cookies.get("jwtToken"),
+        },
       });
 
       if (!response.ok) {

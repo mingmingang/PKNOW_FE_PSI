@@ -121,7 +121,7 @@ export default function MasterSharingEditNot({ onChangePage }) {
         const response = await fetch(`${API_LINK}Upload/GetFile/${namaFile}`, {
           method: "GET",
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("jwtToken"),
+            Authorization: "Bearer " + Cookies.get("jwtToken"),
           },
         });
 
@@ -474,8 +474,6 @@ export default function MasterSharingEditNot({ onChangePage }) {
                   }
                 />
               </div>
-
-           
             </div>
           </div>
         </div>

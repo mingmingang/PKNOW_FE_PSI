@@ -449,7 +449,7 @@ export default function MastermateriAdd({ onChangePage }) {
                     handlePdfChange(fileInputRef, "pdf,docx,xlsx,pptx")
                   }
                   errorMessage={errors.mat_file_pdf}
-                  style={{ width: "195%" }}
+                  style={{ maxWidth: "100%" }}
                 />
                 {AppContext_test.materiPdf && (
                   <a
@@ -475,7 +475,7 @@ export default function MastermateriAdd({ onChangePage }) {
                   maxFileSize={250}
                   onChange={() => handleVideoChange(vidioInputRef, "mp4,mov")}
                   errorMessage={errors.mat_file_video}
-                  style={{ width: "195%" }}
+                  style={{ maxWidth: "100%" }}
                 />
                 {AppContext_test.materiVideo && (
                   <a

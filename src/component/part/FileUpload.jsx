@@ -18,7 +18,7 @@ const FileUpload = forwardRef(function FileUpload(
 ) {
   return (
     <>
-      <div className="mb-3 mt-4 up">
+      <div className="mt-4">
         <label htmlFor={forInput} className="form-label fw-bold">
           {label}
           {isRequired ? <span className="text-danger"> *</span> : ""}

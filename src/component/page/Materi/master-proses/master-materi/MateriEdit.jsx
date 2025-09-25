@@ -96,6 +96,8 @@ export default function MastermateriEdit({ onChangePage }) {
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [isBackAction, setIsBackAction] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [materiPdfLink, setMateriPdfLink] = useState(AppContext_test.materiPdf);
+  const [materiVideoLink, setMateriVideoLink] = useState(AppContext_test.materiVideo);
 
   const handleGoBack = () => {
     setIsBackAction(true);
@@ -304,6 +306,7 @@ export default function MastermateriEdit({ onChangePage }) {
           uploadFile(fileInputRef.current).then((data) => {
             formDataRef.current["mat_file_pdf"] = data.Hasil;
             AppContext_test.materiPdf = data.Hasil;
+            setMateriPdfLink(data.Hasil);
             hasPdfFile = true;
           })
         );
@@ -314,6 +317,7 @@ export default function MastermateriEdit({ onChangePage }) {
           uploadFile(vidioInputRef.current).then((data) => {
             formDataRef.current["mat_file_video"] = data.Hasil;
             AppContext_test.materiVideo = data.Hasil;
+            setMateriVideoLink(data.Hasil);
             hasVideoFile = true;
           })
         );
@@ -489,9 +493,9 @@ export default function MastermateriEdit({ onChangePage }) {
                     handlePdfChange(fileInputRef, "pdf,docx,xlsx,pptx")
                   }
                   errorMessage={errors.mat_file_pdf}
-                  style={{ width: "195%" }}
+                  style={{ maxWidth: "100%" }}
                 />
-                {AppContext_test.materiPdf && (
+                {(materiPdfLink || AppContext_test.materiPdf) && (
                   <a
                     href="#"
                     target="_blank"
@@ -499,7 +503,7 @@ export default function MastermateriEdit({ onChangePage }) {
                     className="text-decoration-none mt-0"
                     onClick={(e) => {
                       e.preventDefault();
-                      previewFile(AppContext_test.materiPdf);
+                     previewFile(materiPdfLink || AppContext_test.materiPdf);
                     }}
                   >
                     Lihat berkas yang telah diunggah
@@ -515,16 +519,16 @@ export default function MastermateriEdit({ onChangePage }) {
                   maxFileSize={250}
                   onChange={() => handleVideoChange(vidioInputRef, "mp4,mov")}
                   errorMessage={errors.mat_file_video}
-                  style={{ width: "195%" }}
+                  style={{ maxWidth: "100%" }}
                 />
-                {AppContext_test.materiVideo && (
+                {(materiVideoLink || AppContext_test.materiVideo) && (
                   <a
                     href="#"
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => {
                       e.preventDefault();
-                      previewFile(AppContext_test.materiVideo);
+                      previewFile(materiVideoLink || AppContext_test.materiVideo);
                     }}
                     className="text-decoration-none mt-0"
                   >

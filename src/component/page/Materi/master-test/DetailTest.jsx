@@ -40,6 +40,8 @@ export default function PengerjaanTest({
   const [totalQuestion, setTotalQuestion] = useState();
   const [answerStatus, setAnswerStatus] = useState([]);
   const [answerUser, setAnswerUser] = useState([]);
+  const [isMobileView, setIsMobileView] = useState(false);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const selectPreviousQuestion = () => {
     if (selectedQuestion > 1) {
       setSelectedQuestion(selectedQuestion - 1);
@@ -60,6 +62,13 @@ export default function PengerjaanTest({
   const [selectedQuestion, setSelectedQuestion] = useState(1);
 
   useEffect(() => {
+const handleResize = () => {
+      setIsMobileView(window.innerWidth < 992);
+    };
+
+    handleResize(); 
+    window.addEventListener("resize", handleResize); 
+
     document.documentElement.style.setProperty(
       "--responsiveContainer-margin-left",
       "0vw"
@@ -68,6 +77,10 @@ export default function PengerjaanTest({
     if (sidebarMenuElement) {
       sidebarMenuElement.classList.add("sidebarMenu-hidden");
     }
+
+    return () => {
+      window.removeEventListener("resize", handleResize); 
+    };
   }, []);
 
   const getSubmittedAnswer = (itemId) => {
@@ -279,7 +292,7 @@ export default function PengerjaanTest({
       a.click();
       a.remove();
       URL.revokeObjectURL(url);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   AppContext_test.durasiTest = 10000;
@@ -322,6 +335,31 @@ export default function PengerjaanTest({
         placeholder="Cari Kelompok Keahlian"
         showInput={false}
       />
+
+      {isMobileView && (
+        <button
+          className="btn mb-3"
+          onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
+          style={{
+            position: "fixed",
+            top: "100px",
+            right: "20px",
+            zIndex: 1000,
+            borderRadius: "10%",
+            width: "100px",
+            height: "50px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "#0d6efd",
+            color: "white",
+          }}
+        >
+          {isMobileSidebarOpen ? "✕ " : "☰"}
+          Soal
+        </button>
+      )}
+
       <div className="d-flex" style={{ marginTop: "20px", height: "60vh" }}>
         <div
           className="flex-fill p-3 d-flex flex-column"
@@ -332,9 +370,9 @@ export default function PengerjaanTest({
               if (index + 1 !== selectedQuestion) return null;
               const totalPoints = Array.isArray(item.jawabanPengguna_soal)
                 ? item.jawabanPengguna_soal.reduce(
-                    (sum, answer) => sum + (parseFloat(answer.ans_nilai) || 0),
-                    0
-                  )
+                  (sum, answer) => sum + (parseFloat(answer.ans_nilai) || 0),
+                  0
+                )
                 : parseFloat(item.jawabanPengguna_soal?.ans_nilai || 0);
               return (
                 <div
@@ -537,27 +575,61 @@ export default function PengerjaanTest({
             </div>
           </form>
         </div>
-        <>
+        {!isMobileView && (
           <div
             style={{
-              height: "100%",
+              height: "95%",
               width: "1px",
               backgroundColor: "#E4E4E4",
               margin: "0 auto",
             }}
-          ></div>
-        </>
+          />
+        )}
+        {(!isMobileView || isMobileSidebarOpen) && (
+          <div
+            style={{
+              position: isMobileView ? "fixed" : "relative",
+              right: isMobileView ? "0" : "auto",
+              top: isMobileView ? "0" : "auto",
+              height: isMobileView ? "100vh" : "auto",
+              width: isMobileView ? "100%" : "auto",
+              backgroundColor: isMobileView ? "white" : "transparent",
+              paddingTop: isMobileView ? "80px" : "0px",
+              paddingLeft: isMobileView ? "-10px" : "0px",
+              zIndex: 999,
+              boxShadow: isMobileView ? "-5px 0 15px rgba(0,0,0,0.1)" : "none",
+              overflowY: "auto",
+            }}
+          >
 
-        <KMS_Sidebar
-          onChangePage={onChangePage}
-          questionNumbers={questionNumbers}
-          selectedQuestion={selectedQuestion}
-          setSelectedQuestion={setSelectedQuestion}
-          answerStatus={answerStatus}
-          checkMainContent="detail_test"
-          quizId={AppContext_test.reviewQuizId}
-          quizType={quizType}
-        />
+            <KMS_Sidebar
+              onChangePage={onChangePage}
+              questionNumbers={questionNumbers}
+              selectedQuestion={selectedQuestion}
+              setSelectedQuestion={setSelectedQuestion}
+              answerStatus={answerStatus}
+              checkMainContent="detail_test"
+              quizId={AppContext_test.reviewQuizId}
+              quizType={quizType}
+            />
+          </div>
+        )}
+
+        {isMobileView && isMobileSidebarOpen && (
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: "rgba(0,0,0,0.5)",
+              zIndex: 998,
+            }}
+            onClick={() => setIsMobileSidebarOpen(false)}
+          />
+        )}
+
       </div>
     </>
   );

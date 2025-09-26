@@ -679,13 +679,14 @@ export default function PengerjaanTest({
         style={{
           marginLeft: isMobileView ? "20px" : "100px",
           marginRight: isMobileView ? "20px" : "100px",
-          height: "100vh",
+          height: "80vh",
           position: "relative",
+          marginTop: "20px",
         }}
       >
         <div
-          className="p-3 d-flex"
-          style={{ width: isMobileView ? "auto" : "910px" }}
+          className="flex-fill p-3 d-flex flex-column"
+          style={{ width: isMobileView ? "auto" : "910px", marginLeft: "4vw"}}
         >
           <div className="mb-3 d-flex" style={{ overflowX: "auto" }}>
             {currentData.map((item, index) => {
@@ -935,21 +936,19 @@ export default function PengerjaanTest({
                   </form>
                 </div>
               );
-            })}
+            })}            
           </div>
-
+        </div>
           {!isMobileView && (
             <div
               style={{
-                height: "100%",
+                height: "95%",
                 width: "1px",
                 backgroundColor: "#E4E4E4",
                 margin: "0 auto",
               }}
             />
           )}
-        </div>
-
         {(!isMobileView || isMobileSidebarOpen) && (
           <div
             style={{

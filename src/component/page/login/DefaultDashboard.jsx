@@ -56,18 +56,18 @@ export default function DefaultDashboard() {
     }
   }, []);
 
+
   const redirectBasedOnRole = (userInfo) => {
     const role = userInfo.peran;
-
     if (
       role === "PIC P-KNOW" ||
       role === "PIC Kelompok Keahlian" ||
       role === "Tenaga Pendidik"
     ) {
       window.location.href = "/beranda_utama";
-    } else if (role === "Program Studi") {
+    } else if (role === "Prodi") {
       window.location.href = "/beranda_prodi";
-    } else if (role === "Tenaga Kependidikan") {
+    } else if (role === "Karyawan") {
       window.location.href = "/beranda_tenaga_kependidikan";
     } else if (role === "Mahasiswa") {
       window.location.href = "/beranda_mahasiswa";
@@ -75,6 +75,7 @@ export default function DefaultDashboard() {
       window.location.href = "/";
     }
   };
+
 
   const handleRoleSelection = async (selectedRole) => {
     const user = Cookies.get("activeUser");

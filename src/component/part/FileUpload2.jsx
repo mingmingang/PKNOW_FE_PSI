@@ -18,7 +18,7 @@ const FileUpload = forwardRef(function FileUpload(
 ) {
   return (
     <>
-      <div className="mt-4">
+      <div className="mb-3 mt-4 up">
         <label htmlFor={forInput} className="form-label fw-bold">
           {label}
           {isRequired ? <span className="text-danger"> *</span> : ""}
@@ -44,23 +44,6 @@ const FileUpload = forwardRef(function FileUpload(
               required={isRequired}
             />
             <sub>Maksimum ukuran berkas adalah {maxFileSize} MB</sub>
-            {hasExisting && (
-              <sub>
-                <br />
-                Berkas saat ini:{" "}
-                <a
-                  href={FILE_LINK + hasExisting}
-                  className="text-decoration-none"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  download={hasExisting.split("/").pop()}
-                >
-                  [Unduh Berkas]
-                </a>
-                <br />
-                Unggah ulang jika ingin mengganti berkas yang sudah ada
-              </sub>
-            )}
           </>
         )}
         {isDisabled && (

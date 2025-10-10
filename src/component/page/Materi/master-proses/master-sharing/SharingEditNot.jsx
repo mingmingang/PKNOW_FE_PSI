@@ -121,7 +121,7 @@ export default function MasterSharingEditNot({ onChangePage }) {
         const response = await fetch(`${API_LINK}Upload/GetFile/${namaFile}`, {
           method: "GET",
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("jwtToken"),
+            Authorization: "Bearer " + Cookies.get("jwtToken"),
           },
         });
 
@@ -463,7 +463,7 @@ export default function MasterSharingEditNot({ onChangePage }) {
                   label="Simpan"
                 />
                 <Button
-                  classType="dark px-4 py-2"
+                  classType="primary px-4 py-2 ml-4 mr-4"
                   label="Berikutnya"
                   onClick={() =>
                     onChangePage(
@@ -474,18 +474,6 @@ export default function MasterSharingEditNot({ onChangePage }) {
                   }
                 />
               </div>
-
-              <Button
-                classType="dark ms-3 px-4 py-2 mr-4"
-                label="Berikutnya"
-                onClick={() =>
-                  onChangePage(
-                    "pretestEdit",
-                    AppContext_test.ForumForm,
-                    AppContext_master.MateriForm
-                  )
-                }
-              />
             </div>
           </div>
         </div>

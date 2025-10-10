@@ -39,8 +39,6 @@ export default function MasterTestIndex({ onChangePage, materiId }) {
     sort: "[Kode Test] asc",
     status: "Aktif",
   });
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
   let activeUser = "";
   const cookie = Cookies.get("activeUser");
 
@@ -152,88 +150,27 @@ export default function MasterTestIndex({ onChangePage, materiId }) {
     updateProgres();
   }, []);
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 992) {
-        setIsSidebarOpen(true);
-      } else {
-        setIsSidebarOpen(false);
-      }
-    };
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   return (
     <>
-      <button
-        className="d-lg-none btn btn-primary mb-3"
-        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-        style={{
-          position: "fixed",
-          top: "100px",
-          right: "15px",
-          zIndex: 1000,
-          color: "white",
-          fontSize: "20px",
-        }}
-      >
-        {isSidebarOpen ? "✕" : "☰"}
-      </button>
-
-      <div className="container">
-        {isSidebarOpen && (
-          <div
-            className="d-lg-none"
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundColor: "rgba(0,0,0,0.5)",
-              zIndex: 999,
-            }}
-            onClick={() => setIsSidebarOpen(false)}
-          />
-        )}
-        <div
-          className={`${isSidebarOpen ? "d-block" : "d-none"} d-lg-block`}
-          style={{
-            position: isSidebarOpen ? "fixed" : "relative",
-            zIndex: 999,
-            backgroundColor: "white",
-            height: isSidebarOpen ? "100vh" : "auto",
-            overflowY: "auto",
-            width: isSidebarOpen ? "350px" : "0px",
-            left: isSidebarOpen ? "0" : "auto",
-            top: isSidebarOpen ? "0" : "auto",
-          }}
-        >
-          <KMS_Rightbar
-            isActivePengenalan={false}
-            isActiveForum={false}
-            isActiveSharing={false}
-            isActiveSharingPDF={false}
-            isActiveSharingVideo={false}
-            isActiveMateri={true}
-            isActiveMateriPDF={false}
-            isActiveMateriVideo={true}
-            isActivePreTest={false}
-            isActivePostTest={false}
-            isOpen={true}
-            onChangePage={onChangePage}
-            materiId={AppContext_test.materiId}
-            handlePreTestClick_open={() => setIsSidebarOpen(true)}
-            handlePreTestClick_close={() => setIsSidebarOpen(false)}
-            isCollapsed={!isSidebarOpen}
-          />
-        </div>
-
+      <div className="container d-flex" style={{ height: "100vh" }}>
+        <KMS_Rightbar
+          isActivePengenalan={false}
+          isActiveForum={false}
+          isActiveSharing={false}
+          isActiveSharingPDF={false}
+          isActiveSharingVideo={false}
+          isActiveMateri={true}
+          isActiveMateriPDF={false}
+          isActiveMateriVideo={true}
+          isActivePreTest={false}
+          isActivePostTest={false}
+          isOpen={true}
+          onChangePage={onChangePage}
+          materiId={AppContext_test.materiId}
+        />
         <div className="">
           {isError && (
-            <div className="">
+            <div className="flex-fill">
               <Alert
                 type="warning"
                 message="Terjadi kesalahan: Gagal mengambil data Test."
@@ -246,44 +183,38 @@ export default function MasterTestIndex({ onChangePage, materiId }) {
           ) : (
             <>
               <div
-                className="d-flex flex-column flex-grow-1 mb-4"
                 style={{
-                  marginLeft:
-                    window.innerWidth >= 992
-                      ? isSidebarOpen
-                        ? "23%"
-                        : "0px"
-                      : "0",
-                  transition: "margin-left 0.3s",
                   marginTop: "100px",
+                  marginLeft: "20px",
+                  marginBottom: "80px",
                 }}
               >
-                <h1 style={{ fontWeight: 600, color: "#002B6C" }} className="">
+                <h1 style={{ fontWeight: 600, color: "#002B6C" }}>
                   Materi Video {decode(currentData.Judul)}
                 </h1>
-                <h6 className="mb-2" style={{ color: "#002B6C" }}>
-                  Dari {decode(currentData.NamaKK)} - {decode(currentData.Prodi)}
+                <h6 className="mb-3" style={{ color: "#002B6C" }}>
+                  Dari {decode(currentData.NamaKK)} -{" "}
+                  {decode(currentData.Prodi)}
                 </h6>
-                <h6 style={{ color: "#002B6C" }} className="">
+                <h6 style={{ color: "#002B6C" }}>
                   Oleh {decode(currentData.Nama)} -{" "}
                   {formatDate(currentData.Creadate)}
                 </h6>
                 {currentData.File_video ? (
-                  <div className="mt-3" style={{ width: "100%" }}>
-                    <ReactPlayer
-                      url={`${API_LINK}Upload/GetFile/${currentData.File_video}`}
-                      playing={true}
-                      controls={true}
-                      width="100%"
-                      height="auto"
-                      style={{
-                        borderRadius: "10px",
-                        maxWidth: "100%",
-                      }}
-                    />
-                  </div>
+                  <ReactPlayer
+                    url={`${API_LINK}Upload/GetFile/${currentData.File_video}`}
+                    playing={true}
+                    controls={true}
+                    width="1000px"
+                    maxwidth="1000px"
+                    height="90%"
+                    style={{
+                      borderRadius: "80px",
+                      marginTop: "5px",
+                    }}
+                  />
                 ) : (
-                  <div className="alert alert-warning mt-4 mb-4">
+                  <div className="alert alert-warning mt-4 mb-4 ml-0">
                     Tidak ada Materi Video yang tersedia.
                   </div>
                 )}

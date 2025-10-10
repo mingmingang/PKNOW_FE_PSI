@@ -321,7 +321,7 @@ export default function MasterMateriReviewJawaban({
   const handleSaveReview = () => {
     Swal.fire({
       title: "Apakah anda yakin sudah selesai?",
-      text: "Jawaban akan disimpan dan tidak dapat diubah lagi.",
+      text: "Penilaian akan disimpan dan tidak dapat diubah lagi.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Ya, submit",
@@ -539,18 +539,76 @@ export default function MasterMateriReviewJawaban({
 
   const removeHtmlTags = (str) => {
     if (!str) return "";
-    const decoded = he.decode(str);
-    return decoded.replace(/<\/?[^>]+(>|$)/g, "");
+
+    try {
+      let decoded = str;
+      let previousDecoded;
+      let maxIterations = 5;
+      let iteration = 0;
+
+      do {
+        previousDecoded = decoded;
+        decoded = he.decode(decoded);
+        iteration++;
+      } while (
+        decoded !== previousDecoded &&
+        decoded.includes("&") &&
+        iteration < maxIterations
+      );
+      decoded = decoded.replace(/<\/?[^>]+(>|$)/g, "");
+      decoded = decoded.replace(/\s+/g, " ").trim();
+
+      return decoded;
+    } catch (error) {
+      return str.replace(/<\/?[^>]+(>|$)/g, "").trim();
+    }
   };
 
   const decodeUserAnswer = (answer) => {
-    if (!answer) return "Belum ada jawaban";
-    try {
-      const decoded = he.decode(answer);
+    if (!answer || answer.trim() === "") return "Belum ada jawaban";
 
-      return decoded.replace(/<\/?[^>]+(>|$)/g, "");
+    try {
+      let decoded = answer;
+      let previousDecoded;
+      let maxIterations = 5;
+      let iteration = 0;
+
+      do {
+        previousDecoded = decoded;
+        decoded = he.decode(decoded);
+        iteration++;
+      } while (
+        decoded !== previousDecoded &&
+        decoded.includes("&") &&
+        iteration < maxIterations
+      );
+
+      decoded = decoded.replace(/<\/?[^>]+(>|$)/g, "");
+      decoded = decoded.replace(/\s+/g, " ").trim();
+      if (!decoded || decoded.trim() === "") {
+        return "Belum ada jawaban";
+      }
+
+      return decoded;
     } catch (error) {
-      return answer.replace(/<\/?[^>]+(>|$)/g, "");
+      let fallback = answer;
+
+      fallback = fallback
+        .replace(/&amp;amp;/g, "&")
+        .replace(/&amp;/g, "&")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/&quot;/g, '"')
+        .replace(/&#x27;/g, "'")
+        .replace(/&#x2F;/g, "/")
+        .replace(/&#39;/g, "'")
+        .replace(/&nbsp;/g, " ")
+        .replace(/&apos;/g, "'");
+
+      fallback = fallback.replace(/<\/?[^>]+(>|$)/g, "");
+      fallback = fallback.replace(/\s+/g, " ").trim();
+
+      return fallback || "Belum ada jawaban";
     }
   };
 
@@ -560,17 +618,32 @@ export default function MasterMateriReviewJawaban({
         `${API_LINK}Upload/GetFile/${encodeURIComponent(namaFile)}`
       );
 
-      const blob = new Blob([response.data], {
-        type: response.headers["content-type"],
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const blob = await response.blob();
+
+      const contentType = response.headers.get("content-type");
+
+      const fileBlob = new Blob([blob], {
+        type: contentType || "application/octet-stream",
       });
-      const url = URL.createObjectURL(blob);
+
+      const url = URL.createObjectURL(fileBlob);
       const a = document.createElement("a");
       a.href = url;
       a.download = namaFile;
       document.body.appendChild(a);
       a.click();
-      a.remove();
-    } catch (error) {}
+
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 100);
+    } catch (error) {
+      SweetAlert("Error", "Gagal mengunduh file", "error");
+    }
   };
 
   const scaleDescriptions = {
@@ -781,7 +854,7 @@ export default function MasterMateriReviewJawaban({
                           <Form.Control
                             as="textarea"
                             rows={3}
-                            value={decodedAnswer || "Belum ada jawaban"}
+                            value={decodedAnswer}
                             onChange={(e) =>
                               handleAnswerChange(questionIndex, e.target.value)
                             }

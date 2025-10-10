@@ -248,7 +248,7 @@ export default function MasterTestIndex({ onChangePage, materiId }) {
           ) : (
             <>
               <div
-                className="d-flex flex-column flex-grow-1 mb-4"
+                className="d-flex flex-column flex-grow-1"
                 style={{
                   marginLeft:
                     window.innerWidth >= 992
@@ -263,7 +263,7 @@ export default function MasterTestIndex({ onChangePage, materiId }) {
                 <h1 style={{ fontWeight: 600, color: "#002B6C" }} className="">
                   Materi {decode(fileData.judul)}
                 </h1>
-                <h6 className="mb-2" style={{ color: "#002B6C" }}>
+                <h6 className="mb-0" style={{ color: "#002B6C" }}>
                   Dari {decode(fileData.namaKK)} - {decode(fileData.prodi)}
                 </h6>
                 <h6 style={{ color: "#002B6C" }} className="">

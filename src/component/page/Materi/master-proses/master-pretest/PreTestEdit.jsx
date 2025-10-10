@@ -333,10 +333,9 @@ export default function MasterPreTestEdit({ onChangePage, withID }) {
                 )}`;
 
                 const gambarPromise = UseFetch(
-                  `${API_LINK}Utilities/DownloadFile`,
-                  { namaFile: question.Gambar },
-                  "GET",
-                  "blob"
+                  `${API_LINK}Utilities/DownloadFile?namaFile=${question.Gambar}`,
+                  {},
+                  "GET"
                 )
                   .then((response) => {
                     if (response !== "ERROR" && response.blob) {
@@ -706,6 +705,9 @@ export default function MasterPreTestEdit({ onChangePage, withID }) {
       const response = await fetch(`${API_LINK}Upload/UploadFile`, {
         method: "POST",
         body: formData,
+        headers: {
+          Authorization: "Bearer " + Cookies.get("jwtToken"),
+        },
       });
 
       if (!response.ok) {

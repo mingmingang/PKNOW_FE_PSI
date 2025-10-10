@@ -16,6 +16,7 @@ import AppContext_test from "../../master-test/TestContext";
 import BackPage from "../../../../../assets/backPage.png";
 import Konfirmasi from "../../../../part/Konfirmasi";
 import CustomStepper from "../../../../part/Stepp";
+import Cookies from "js-cookie";
 
 export default function MastermateriAdd({ onChangePage }) {
   const [errors, setErrors] = useState({});
@@ -45,40 +46,67 @@ export default function MastermateriAdd({ onChangePage }) {
 
   const Forum = AppContext_test.ForumForm;
 
-  const previewFile = async (namaFile) => {
+  const previewFile = async (namaFile, fileType = "") => {
     try {
       namaFile = namaFile.trim();
-      const data = await UseFetch(`${API_LINK}Upload/GetFile/${namaFile}`, {
-        method: "GET",
-        headers: {
-          Accept: "application/octet-stream",
-        },
-      });
 
-      if (data === "ERROR") {
-        throw new Error("Gagal mengambil file");
-      }
+      const isPDF =
+        fileType === "application/pdf" ||
+        namaFile.toLowerCase().endsWith(".pdf");
 
-      const blob = new Blob([data], {
-        type: "application/octet-stream",
-      });
+      if (isPDF) {
+        const apiUrl = `${API_LINK}Upload/GetFile/${namaFile}?inline=true`;
+        const shortFileName = namaFile.split("_")[1] || namaFile.split(".")[0];
+        const newWindow = window.open(apiUrl, "_blank");
 
-      const url = URL.createObjectURL(blob);
-
-      if (namaFile.toLowerCase().endsWith(".pdf")) {
-        window.open(url, "_blank");
+        if (newWindow) {
+          setTimeout(() => {
+            try {
+              newWindow.document.title = shortFileName;
+            } catch (e) {}
+          }, 500);
+        }
       } else {
+        const response = await fetch(`${API_LINK}Upload/GetFile/${namaFile}`, {
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + Cookies.get("jwtToken"),
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Tidak dapat mengambil file");
+        }
+
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+
+        const judulMateri =
+          AppContext_master.MateriForm?.Judul || "SharingExpert";
+        const formattedFileName = `Sharing Expert - ${judulMateri}`;
+
         const link = document.createElement("a");
         link.href = url;
-        link.download = namaFile;
+
+        let extension = "";
+        const actualFileType = fileType || blob.type;
+        if (actualFileType.includes("video")) extension = ".mp4";
+        else if (actualFileType.includes("word")) extension = ".docx";
+        else if (actualFileType.includes("excel")) extension = ".xlsx";
+        else if (actualFileType.includes("powerpoint")) extension = ".pptx";
+        else if (actualFileType.includes("zip")) extension = ".zip";
+        else {
+          const originalExt = namaFile.split(".").pop();
+          extension = originalExt ? `.${originalExt}` : "";
+        }
+
+        link.download = `${formattedFileName}${extension}`;
         link.click();
+
+        setTimeout(() => URL.revokeObjectURL(url), 10000);
       }
     } catch (error) {
-      SweetAlert(
-        "Error",
-        "Tidak dapat menampilkan pratinjau. Silakan unduh file.",
-        "error"
-      );
+      alert("Tidak dapat menampilkan pratinjau. Silakan unduh file.");
     }
   };
 
@@ -421,7 +449,7 @@ export default function MastermateriAdd({ onChangePage }) {
                     handlePdfChange(fileInputRef, "pdf,docx,xlsx,pptx")
                   }
                   errorMessage={errors.mat_file_pdf}
-                  style={{ width: "195%" }}
+                  style={{ maxWidth: "100%" }}
                 />
                 {AppContext_test.materiPdf && (
                   <a
@@ -447,7 +475,7 @@ export default function MastermateriAdd({ onChangePage }) {
                   maxFileSize={250}
                   onChange={() => handleVideoChange(vidioInputRef, "mp4,mov")}
                   errorMessage={errors.mat_file_video}
-                  style={{ width: "195%" }}
+                  style={{ maxWidth: "100%" }}
                 />
                 {AppContext_test.materiVideo && (
                   <a

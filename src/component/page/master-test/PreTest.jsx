@@ -5,10 +5,10 @@ import Table from "../../../part/Table";
 import Alert from "../../../part/Alert";
 import Loading from "../../../part/Loading";
 import KMS_Rightbar from "../../../part/RightBar";
-import UseFetch from "../../../util/UseFetch";
-import AppContext_test from "./TestContext";
 import Cookies from "js-cookie";
 import { decryptId } from "../../../util/Encryptor";
+import UseFetch from "../../../util/UseFetch";
+import AppContext_test from "./TestContext";
 import "../../../../style/Table.css";
 import { decode } from "html-entities";
 
@@ -25,23 +25,15 @@ export default function MasterTestPreTest({
   const [currentData, setCurrentData] = useState(0);
   const [dataDetailQuiz, setDataDetailQuiz] = useState(0);
   const [error, setError] = useState(null);
-  const [tableData, setTableData] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  function handleDetailAction(action, key) {
-    if (action === "detail") {
-      onChangePage("detailtest", "Posttest", AppContext_test.IdQuiz, key);
-      AppContext_test.QuizType = "Posttest";
-    }
-  }
 
   async function onStartTest() {
     try {
       setIsLoading(true);
       const data = await UseFetch(API_LINK + "Quiz/SaveTransaksiQuiz", {
         karyawanId: activeUser,
-        status: "",
-        createdBy: activeUser,
+        status: "Aktif",
+        quizId: activeUser,
         jumlahBenar: "",
       });
 
@@ -53,12 +45,12 @@ export default function MasterTestPreTest({
         return;
       }
 
-      if (data[0]?.hasil === "OK") {
+      if (data[0].hasil === "OK") {
         await updateProgres();
         AppContext_test.dataIdTrQuiz = data[0].tempIDAlt;
         onChangePage(
           "pengerjaantest",
-          "Posttest",
+          "Pretest",
           currentData.materiId,
           currentData.quizId,
           currentData.timer,
@@ -74,7 +66,7 @@ export default function MasterTestPreTest({
     } catch (error) {
       setIsError({
         error: true,
-        message: "Terjadi kesalahan: " + error.message,
+        message: "Failed to save forum data: " + error.message,
       });
     } finally {
       setIsLoading(false);
@@ -93,7 +85,7 @@ export default function MasterTestPreTest({
           {
             materiId: AppContext_test.materiId,
             kry_user: activeUser,
-            tipe: "Post-Test",
+            tipe: "Pre-Test",
           }
         );
 
@@ -118,16 +110,17 @@ export default function MasterTestPreTest({
   }, []);
 
   let idSection;
+  let jumlahSoal;
 
   useEffect(() => {
     let isMounted = true;
     let totalSoal = 0;
 
-    const fetchData_posttest = async (retries = 10, delay = 1000) => {
+    const fetchData_pretest = async (retries = 10, delay = 1000) => {
       for (let i = 0; i < retries; i++) {
         setIsLoading(true);
         try {
-          const data = await fetchDataWithRetry_posttest();
+          const data = await fetchDataWithRetry_pretest();
           if (isMounted) {
             if (data != "") {
               if (Array.isArray(data)) {
@@ -195,12 +188,12 @@ export default function MasterTestPreTest({
       }
     };
 
-    const fetchDataWithRetry_posttest = async (retries = 15, delay = 500) => {
+    const fetchDataWithRetry_pretest = async (retries = 15, delay = 500) => {
       for (let i = 0; i < retries; i++) {
         try {
           const data = await UseFetch(API_LINK + "Quiz/GetDataResultQuiz", {
             matId: AppContext_test.materiId,
-            quiTipe: "Posttest",
+            quiTipe: "Pretest",
             karyawanId: activeUser,
           });
 
@@ -225,16 +218,15 @@ export default function MasterTestPreTest({
             API_LINK + "Section/GetDataSectionByMateri",
             {
               mat_id: AppContext_test.materiId,
-              sec_type: "Post-Test",
+              sec_type: "Pre-Test",
               sec_status: "Aktif",
             }
           );
 
           if (data !== "ERROR" && data.length !== 0) {
             idSection = data[0].SectionId;
-            return data;
           }
-        } catch (error) {
+        } catch (e) {
           if (i < retries - 1) {
             await new Promise((resolve) => setTimeout(resolve, delay));
           } else {
@@ -244,7 +236,7 @@ export default function MasterTestPreTest({
       }
     };
 
-    const getQuiz_posttest = async (retries = 10, delay = 500) => {
+    const getQuiz_pretest = async (retries = 10, delay = 500) => {
       for (let i = 0; i < retries; i++) {
         try {
           const data = await UseFetch(
@@ -254,7 +246,7 @@ export default function MasterTestPreTest({
             }
           );
 
-          if (data !== "ERROR" && data.length > 0) {
+          if (data !== "ERROR" && data && data.length > 0) {
             AppContext_test.IdQuiz = data[0].quizId;
             setCurrentData(data[0]);
             return data[0];
@@ -273,14 +265,13 @@ export default function MasterTestPreTest({
       try {
         setIsLoading(true);
         await getListSection();
-        const quizData = await getQuiz_posttest();
+        const quizData = await getQuiz_pretest();
 
         if (quizData) {
           totalSoal = quizData.jumlahSoal;
           setCurrentData(quizData);
         }
-
-        await fetchData_posttest();
+        await fetchData_pretest();
       } catch (error) {
         setIsError(true);
       } finally {
@@ -305,6 +296,15 @@ export default function MasterTestPreTest({
     AppContext_test.durasiTest = duration;
     return Math.floor(duration / 60);
   };
+
+  const [tableData, setTableData] = useState([]);
+
+  function handleDetailAction(action, key) {
+    if (action === "detail") {
+      onChangePage("detailtest", "Pretest", AppContext_test.IdQuiz, key);
+      AppContext_test.QuizType = "Pretest";
+    }
+  }
 
   useEffect(() => {
     const handleResize = () => {
@@ -374,8 +374,8 @@ export default function MasterTestPreTest({
             isActiveMateri={false}
             isActiveMateriPDF={false}
             isActiveMateriVideo={false}
-            isActivePreTest={false}
-            isActivePostTest={true}
+            isActivePreTest={true}
+            isActivePostTest={false}
             isOpen={true}
             onChangePage={onChangePage}
             materiId={AppContext_test.materiId}
@@ -384,94 +384,103 @@ export default function MasterTestPreTest({
             isCollapsed={!isSidebarOpen}
           />
         </div>
-      </div>
-      <div className="d-flex flex-column">
-        {isError && <div className=""></div>}
-        {isLoading ? (
-          <Loading message="Sedang memuat data..." />
-        ) : currentData ? (
-          <div
-            className="d-flex flex-column flex-grow-1"
-            style={{
-              marginLeft:
-                window.innerWidth >= 992 ? (isSidebarOpen ? "25%" : "5%") : "0",
-              transition: "margin-left 0.3s",
-            }}
-          >
-            <div className=" align-items-center mb-5">
-              <div style={{ marginTop: "100px" }}>
-                <div className="d-flex">
-                  <div className="mt-2"></div>
+        <div className="">
+          {isError && (
+            <Alert
+              type="warning"
+              message="Terjadi kesalahan: Gagal mengambil data Test."
+            />
+          )}
+          {isLoading ? (
+            <Loading message="Sedang memuat data..." />
+          ) : currentData ? (
+            <div
+              className="d-flex flex-column flex-grow-1"
+              style={{
+                marginLeft:
+                  window.innerWidth >= 992
+                    ? isSidebarOpen
+                      ? "23%"
+                      : "0px"
+                    : "0",
+                transition: "margin-left 0.3s",
+              }}
+            >
+              <div className=" align-items-center mb-5">
+                <div style={{ marginTop: "80px" }}>
+                  <div className="d-flex">
+                    <div className="mt-2"></div>
+                  </div>
+                  <h2
+                    className="mb-0 primary mt-4"
+                    style={{ color: "#002B6C", fontWeight: "600" }}
+                  >
+                    {decode(currentData.quizDeskripsi)}
+                  </h2>
+                  <br />
+                  <h6 className="mb-0" style={{ color: "#002B6C" }}>
+                    Dari {decode(currentData.NamaKK)} -{" "}
+                    {decode(currentData.Prodi)}
+                  </h6>
+                  <br />
+                  <h6
+                    className="mb-2"
+                    style={{ color: "#002B6C", marginTop: "-10px" }}
+                  >
+                    Oleh {decode(currentData.Nama)} -{" "}
+                    {formatDate(currentData.createdDate)}
+                  </h6>
+                  <p
+                    className="mb-3"
+                    style={{ textAlign: "justify", width: "98%" }}
+                  >
+                    Pre-test ini merupakan evaluasi akhir yang terdiri dari{" "}
+                    {currentData.jumlahSoal} soal. Anda diberikan waktu total{" "}
+                    {convertToMinutes(currentData.timer)} menit untuk
+                    menyelesaikan semua soal tersebut. Waktu pengerjaan akan
+                    dimulai secara otomatis saat Anda menekan tombol "Mulai
+                    Pre-Test" yang terletak di bawah instruksi ini. Pre-Test
+                    tidak akan dimulai hingga Anda siap dan memilih untuk
+                    memulainya dengan mengklik tombol tersebut. Begitu tombol
+                    ditekan, waktu akan mulai berjalan, dan Anda harus
+                    menyelesaikan semua soal dalam jangka waktu yang telah
+                    ditetapkan.
+                  </p>
                 </div>
-                <h2
-                  className="mb-0 primary mt-4"
-                  style={{ color: "#002B6C", fontWeight: "600" }}
-                >
-                  {decode(currentData.quizDeskripsi)}
-                </h2>
-                <br />
-                <h6 className="mb-0" style={{ color: "#002B6C" }}>
-                  Dari {decode(currentData.NamaKK)} -{" "}
-                  {decode(currentData.Prodi)}
-                </h6>
-                <br />
-                <h6
-                  className="mb-2"
-                  style={{ color: "#002B6C", marginTop: "-10px" }}
-                >
-                  Oleh {decode(currentData.Nama)} -{" "}
-                  {formatDate(currentData.createdDate)}
-                </h6>
-                <p
-                  className="mb-3"
-                  style={{ textAlign: "justify", width: "98%" }}
-                >
-                  Post-test ini merupakan evaluasi akhir yang terdiri dari{" "}
-                  {currentData.jumlahSoal} soal. Anda diberikan waktu total{" "}
-                  {convertToMinutes(currentData.timer)} menit untuk
-                  menyelesaikan semua soal tersebut. Waktu pengerjaan akan
-                  dimulai secara otomatis saat Anda menekan tombol “Mulai
-                  Post-Test” yang terletak di bawah instruksi ini. Post-Test
-                  tidak akan dimulai hingga Anda siap dan memilih untuk
-                  memulainya dengan mengklik tombol tersebut. Begitu tombol
-                  ditekan, waktu akan mulai berjalan, dan Anda harus
-                  menyelesaikan semua soal dalam jangka waktu yang telah
-                  ditetapkan. Anda pelu mencapai <strong>80 Point</strong> untuk{" "}
-                  <span style={{ color: "green", fontWeight: "bold" }}>
-                    Lulus
-                  </span>{" "}
-                  pada kuis ini.
-                </p>
-              </div>
 
-              <Button
-                classType="primary mt-2"
-                label="Mulai Post-Test"
-                onClick={onStartTest}
+                <Button
+                  classType="mt-2"
+                  label="Mulai Pre-Test"
+                  onClick={onStartTest}
+                  style={{
+                    backgroundColor: "#0d6efd",
+                    color: "white",
+                  }}
+                />
+              </div>
+              <hr style={{ marginRight: "20px" }} />
+
+              <div className="">
+                <div className="mb-4">
+                  <h3
+                    className=""
+                    style={{ fontWeight: "600", color: "#002B6C" }}
+                  >
+                    Riwayat
+                  </h3>
+                  <Table data={tableData} onDetail={handleDetailAction} />
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="" style={{ marginTop: "110px" }}>
+              <Alert
+                type="info"
+                message="Saat ini belum tersedia Pre-Test Pada Materi ini."
               />
             </div>
-            <hr style={{ marginRight: "20px" }} />
-
-            <div className="">
-              <div className="mb-4">
-                <h3
-                  className=""
-                  style={{ fontWeight: "600", color: "#002B6C" }}
-                >
-                  Riwayat
-                </h3>
-                <Table data={tableData} onDetail={handleDetailAction} />
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="" style={{ marginTop: "110px" }}>
-            <Alert
-              type="info"
-              message="Saat ini belum tersedia Post Test pada Materi ini."
-            />
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </>
   );

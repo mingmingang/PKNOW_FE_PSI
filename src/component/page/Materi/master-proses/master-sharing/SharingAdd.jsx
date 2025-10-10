@@ -68,35 +68,70 @@ export default function MasterSharingAdd({ onChangePage }) {
     mat_sharing_expert_video: string(),
   });
 
-  const previewFile = async (namaFile) => {
+  const previewFile = async (namaFile, fileType = "") => {
     try {
       namaFile = namaFile.trim();
-      const response = await UseFetch(
-        `${API_LINK}Upload/GetFile/${namaFile}`,
-        null,
-        "GET",
-        false,
-        "arraybuffer"
-      );
 
-      const blob = new Blob([response.data], {
-        type: response.headers["content-type"],
-      });
-      const url = URL.createObjectURL(blob);
+      const isPDF =
+        fileType === "application/pdf" ||
+        namaFile.toLowerCase().endsWith(".pdf");
 
-      if (response.headers["content-type"] === "application/pdf") {
-        window.open(url, "_blank");
+      if (isPDF) {
+        const apiUrl = `${API_LINK}Upload/GetFile/${namaFile}?inline=true`;
+        const shortFileName = namaFile.split("_")[1] || namaFile.split(".")[0];
+        const newWindow = window.open(apiUrl, "_blank");
+
+        if (newWindow) {
+          setTimeout(() => {
+            try {
+              newWindow.document.title = shortFileName;
+            } catch (e) {}
+          }, 500);
+        }
       } else {
+        const response = await fetch(`${API_LINK}Upload/GetFile/${namaFile}`, {
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + Cookies.get("jwtToken"),
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Tidak dapat mengambil file");
+        }
+
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+
+        const judulMateri =
+          AppContext_master.MateriForm?.Judul || "SharingExpert";
+        const formattedFileName = `Sharing Expert - ${judulMateri}`;
+
         const link = document.createElement("a");
         link.href = url;
-        link.download = namaFile;
+
+        let extension = "";
+        const actualFileType = fileType || blob.type;
+        if (actualFileType.includes("video")) extension = ".mp4";
+        else if (actualFileType.includes("word")) extension = ".docx";
+        else if (actualFileType.includes("excel")) extension = ".xlsx";
+        else if (actualFileType.includes("powerpoint")) extension = ".pptx";
+        else if (actualFileType.includes("zip")) extension = ".zip";
+        else {
+          const originalExt = namaFile.split(".").pop();
+          extension = originalExt ? `.${originalExt}` : "";
+        }
+
+        link.download = `${formattedFileName}${extension}`;
         link.click();
+
+        setTimeout(() => URL.revokeObjectURL(url), 10000);
       }
     } catch (error) {
       alert("Tidak dapat menampilkan pratinjau. Silakan unduh file.");
     }
   };
-
+  
   const handlePdfChange = () =>
     handleFileChange(fileInputRef, "pdf,docx,xlsx,pptx", 10);
 
@@ -556,7 +591,7 @@ export default function MasterSharingAdd({ onChangePage }) {
                     handlePdfChange(fileInputRef, "pdf,docx,xlsx,pptx")
                   }
                   errorMessage={errors.mat_sharing_expert_pdf}
-                  style={{ width: "195%" }}
+                  style={{ maxWidth: "100%" }}
                 />
                 {AppContext_test.sharingExpertPDF && (
                   <a
@@ -582,7 +617,7 @@ export default function MasterSharingAdd({ onChangePage }) {
                   maxFileSize={250}
                   onChange={() => handleVideoChange(vidioInputRef, "mp4,mov")}
                   errorMessage={errors.mat_sharing_expert_video}
-                  style={{ width: "195%" }}
+                  style={{ maxWidth: "100%" }}
                 />
                 {AppContext_test.sharingExpertVideo && (
                   <a

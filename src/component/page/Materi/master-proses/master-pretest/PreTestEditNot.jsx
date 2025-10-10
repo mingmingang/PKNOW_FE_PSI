@@ -267,6 +267,9 @@ export default function MasterPreTestEditNot({ onChangePage, withID }) {
       const response = await fetch(`${API_LINK}Upload/UploadFile`, {
         method: "POST",
         body: formData,
+        headers: {
+          Authorization: "Bearer " + Cookies.get("jwtToken"),
+        },
       });
 
       if (!response.ok) {

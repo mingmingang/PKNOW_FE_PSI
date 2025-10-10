@@ -313,7 +313,7 @@ export default function MasterDaftarPustakaEdit({ onChangePage, withID }) {
             <div className="card">
               <div className="card-body p-4">
                 <div className="row">
-                  <div className="col-lg-4 box-image">
+                  <div className="col-lg-6 box-image">
                     <div className="file-preview">
                       <div className="preview-img">
                         {filePreview ? (
@@ -403,7 +403,7 @@ export default function MasterDaftarPustakaEdit({ onChangePage, withID }) {
                       errorMessage={errors.pus_kata_kunci}
                     />
                   </div>
-                  <div className="col-lg-4">
+                  <div className="mb-4">
                     <FileUpload
                       ref={fileDocumentRef}
                       forInput="pus_file"

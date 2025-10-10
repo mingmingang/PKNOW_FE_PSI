@@ -7,8 +7,8 @@ import { API_LINK } from "../util/Constants";
 import ReactPlayer from "react-player";
 import WordViewer from "./DocumentViewer";
 import ExcelViewer from "./ExcelViewer";
-import axios from "axios";
 import { decode } from "he";
+import UseFetch from "../util/UseFetch";
 
 export default function DetailDaftarPustaka({ onChangePage, withID }) {
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -63,11 +63,11 @@ export default function DetailDaftarPustaka({ onChangePage, withID }) {
 
   const setupDownload = async (fileUrl, formattedFileName) => {
     try {
-      const response = await axios.get(fileUrl, {
-        responseType: "blob",
-      });
+      const blob = await UseFetch(fileUrl, {}, "GET", "blob");
+      if (blob === "ERROR" || !(blob instanceof Blob)) {
+        return;
+      }
 
-      const blob = new Blob([response.data]);
       const blobUrl = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = blobUrl;

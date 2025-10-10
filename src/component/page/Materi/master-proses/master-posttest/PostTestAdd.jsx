@@ -880,6 +880,9 @@ export default function MasterPostTestAdd({ onChangePage }) {
       const response = await fetch(`${API_LINK}Upload/UploadFile`, {
         method: "POST",
         body: formData,
+        headers: {
+          Authorization: "Bearer " + Cookies.get("jwtToken"),
+        },
       });
 
       if (!response.ok) {
@@ -893,7 +896,9 @@ export default function MasterPostTestAdd({ onChangePage }) {
 
   const handleFileChange = async (e, index) => {
     const file = e.target.files[0];
-    if (!file) return;
+    if (!file) {
+      return;
+    }
 
     const allowedExtensions = ["jpg", "jpeg", "png"];
     const fileExtension = file.name.split(".").pop().toLowerCase();
@@ -905,6 +910,7 @@ export default function MasterPostTestAdd({ onChangePage }) {
         title: "Format Berkas Tidak Valid",
         text: "Hanya file dengan format .jpg, .jpeg, atau .png yang diizinkan.",
       });
+      e.target.value = "";
       return;
     }
 
@@ -914,24 +920,61 @@ export default function MasterPostTestAdd({ onChangePage }) {
         title: "Ukuran File Terlalu Besar",
         text: `Ukuran file maksimal adalah ${maxSizeInMB} MB.`,
       });
+      e.target.value = "";
       return;
     }
 
+    Swal.fire({
+      title: "Mengunggah file...",
+      text: "Mohon tunggu",
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      willOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
     try {
       const uploadResponse = await uploadFile(file);
-      if (!uploadResponse || !uploadResponse.Hasil) {
-        throw new Error("Respon server tidak valid.");
+
+      let fileName;
+      if (uploadResponse.Hasil) {
+        fileName = uploadResponse.Hasil;
+      } else if (uploadResponse.filename) {
+        fileName = uploadResponse.filename;
+      } else if (uploadResponse.data && uploadResponse.data.filename) {
+        fileName = uploadResponse.data.filename;
+      } else {
+        fileName = file.name;
       }
 
       const updatedFormContent = [...formContent];
       updatedFormContent[index] = {
         ...updatedFormContent[index],
-        selectedFile: file,
-        gambar: uploadResponse.Hasil,
+        gambar: fileName,
         previewUrl: URL.createObjectURL(file),
+        isNewFile: true,
       };
+
       setFormContent(updatedFormContent);
-    } catch (error) {}
+
+      Swal.fire({
+        icon: "success",
+        title: "Berhasil!",
+        text: "File berhasil diunggah",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Upload Gagal",
+        text: `Gagal mengunggah file: ${error.message}`,
+        confirmButtonText: "OK",
+      });
+
+      e.target.value = "";
+    }
   };
 
   const handleFileExcel = (event) => {

@@ -56,6 +56,9 @@ export default function MasterPreTestAdd({ onChangePage }) {
       const response = await fetch(`${API_LINK}Upload/UploadFile`, {
         method: "POST",
         body: formData,
+        headers: {
+          Authorization: "Bearer " + Cookies.get("jwtToken"),
+        },
       });
 
       if (!response.ok) {
@@ -884,7 +887,9 @@ export default function MasterPreTestAdd({ onChangePage }) {
 
   const handleFileChange = async (e, index) => {
     const file = e.target.files[0];
-    if (!file) return;
+    if (!file) {
+      return;
+    }
 
     const allowedExtensions = ["jpg", "jpeg", "png"];
     const fileExtension = file.name.split(".").pop().toLowerCase();
@@ -896,6 +901,7 @@ export default function MasterPreTestAdd({ onChangePage }) {
         title: "Format Berkas Tidak Valid",
         text: "Hanya file dengan format .jpg, .jpeg, atau .png yang diizinkan.",
       });
+      e.target.value = "";
       return;
     }
 
@@ -905,19 +911,63 @@ export default function MasterPreTestAdd({ onChangePage }) {
         title: "Ukuran File Terlalu Besar",
         text: `Ukuran file maksimal adalah ${maxSizeInMB} MB.`,
       });
+      e.target.value = "";
       return;
     }
 
-    const previewUrl = URL.createObjectURL(file);
+    Swal.fire({
+      title: "Mengunggah file...",
+      text: "Mohon tunggu",
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      willOpen: () => {
+        Swal.showLoading();
+      },
+    });
 
-    const updatedFormContent = [...formContent];
-    updatedFormContent[index] = {
-      ...updatedFormContent[index],
-      selectedFile: file,
-      previewUrl: previewUrl,
-    };
-    setFormContent(updatedFormContent);
+    try {
+      const uploadResponse = await uploadFile(file);
+
+      let fileName;
+      if (uploadResponse.Hasil) {
+        fileName = uploadResponse.Hasil;
+      } else if (uploadResponse.filename) {
+        fileName = uploadResponse.filename;
+      } else if (uploadResponse.data && uploadResponse.data.filename) {
+        fileName = uploadResponse.data.filename;
+      } else {
+        fileName = file.name;
+      }
+
+      const updatedFormContent = [...formContent];
+      updatedFormContent[index] = {
+        ...updatedFormContent[index],
+        gambar: fileName,
+        previewUrl: URL.createObjectURL(file),
+        isNewFile: true,
+      };
+
+      setFormContent(updatedFormContent);
+
+      Swal.fire({
+        icon: "success",
+        title: "Berhasil!",
+        text: "File berhasil diunggah",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Upload Gagal",
+        text: `Gagal mengunggah file: ${error.message}`,
+        confirmButtonText: "OK",
+      });
+
+      e.target.value = "";
+    }
   };
+
 
   const handleFileExcel = (event) => {
     const file = event.target.files[0];
@@ -1152,6 +1202,9 @@ export default function MasterPreTestAdd({ onChangePage }) {
       );
     }
   };
+
+  console.log("data nye",
+          AppContext_master.dataQuizPretest,);
 
   return (
     <>
@@ -1453,55 +1506,116 @@ export default function MasterPreTestAdd({ onChangePage }) {
                         />
                       </div>
 
-                      {(question.type === "Essay" ||
-                        question.type === "Praktikum") && (
-                        <div className="d-flex flex-column w-100">
-                          <FileUpload
-                            forInput={`fileInput_${index}`}
-                            formatFile=".jpg,.jpeg,.png"
-                            label={
-                              <span className="file-upload-label">
-                                Gambar (.jpg, .jpeg, .png)
-                              </span>
-                            }
-                            onChange={(e) => handleFileChange(e, index)}
-                            hasExisting={formContent[index]?.img || null}
-                            style={{ fontSize: "12px" }}
-                          />
-
-                          {question.previewUrl && (
-                            <div
-                              style={{
-                                maxWidth: "300px",
-                                maxHeight: "300px",
-                                overflow: "hidden",
-                                borderRadius: "20px",
-                                marginTop: "10px",
-                              }}
-                            >
-                              <img
-                                src={question.previewUrl}
-                                alt="Preview Gambar"
-                                style={{
-                                  width: "100%",
-                                  height: "auto",
-                                  objectFit: "contain",
-                                }}
+                        {(question.type === "Essay" ||
+                          question.type === "Praktikum") && (
+                          <div className="col-lg-12 d-flex align-items-center form-check">
+                            <div className="d-flex flex-column w-100">
+                              <FileUpload
+                                forInput={`fileInput_${index}`}
+                                formatFile=".jpg,.jpeg,.png"
+                                label={
+                                  <span className="file-upload-label">
+                                    Gambar (.jpg, .jpeg, .png)
+                                  </span>
+                                }
+                                onChange={(e) => handleFileChange(e, index)}
+                                hasExisting={formContent[index]?.img || null}
+                                style={{ fontSize: "12px" }}
                               />
-                            </div>
-                          )}
 
-                          <div className="mt-2">
-                            <Input
-                              type="number"
-                              label="Skor"
-                              value={question.point}
-                              onChange={(e) => handlePointChange(e, index)}
-                              isRequired={true}
-                            />
+                              {question.previewUrl && (
+                                <div
+                                  style={{
+                                    maxWidth: "300px",
+                                    maxHeight: "300px",
+                                    overflow: "hidden",
+                                  }}
+                                >
+                                  <img
+                                    src={question.previewUrl}
+                                    alt="Preview"
+                                    style={{
+                                      width: "100%",
+                                      height: "auto",
+                                      objectFit: "contain",
+                                    }}
+                                    onError={(e) => {
+                                      e.target.style.display = "none";
+                                    }}
+                                  />
+                                </div>
+                              )}
+                              {!question.previewUrl && question.gambar && (
+                                <div
+                                  style={{
+                                    marginTop: "10px",
+                                    padding: "10px",
+                                    backgroundColor: "#f8f9fa",
+                                    borderRadius: "4px",
+                                  }}
+                                >
+                                  <p
+                                    style={{
+                                      fontSize: "12px",
+                                      color: "#666",
+                                      margin: 0,
+                                    }}
+                                  >
+                                    File gambar: {question.gambar}
+                                  </p>
+                                  <button
+                                    type="button"
+                                    className="btn btn-sm btn-outline-primary mt-2"
+                                    onClick={() => {
+                                      const updatedFormContent = [
+                                        ...formContent,
+                                      ];
+                                      updatedFormContent[
+                                        index
+                                      ].previewUrl = `${API_LINK}Utilities/Upload/DownloadFile?namaFile=${encodeURIComponent(
+                                        question.gambar
+                                      )}`;
+                                      setFormContent(updatedFormContent);
+                                    }}
+                                  >
+                                    Muat Gambar
+                                  </button>
+                                </div>
+                              )}
+
+                              {question.gambar && !question.selectedFile && (
+                                <div
+                                  style={{
+                                    maxWidth: "300px",
+                                    maxHeight: "300px",
+                                    overflow: "hidden",
+                                  }}
+                                >
+                                  <img
+                                    src={question.gambar}
+                                    alt=""
+                                    style={{
+                                      width: "100%",
+                                      height: "auto",
+                                      objectFit: "contain",
+                                    }}
+                                  />
+                                </div>
+                              )}
+
+                              <div className="mt-2">
+                                <label className="form-label fw-bold">
+                                  Point <span style={{ color: "Red" }}> *</span>
+                                </label>{" "}
+                                <Input
+                                  type="number"
+                                  value={question.point}
+                                  onChange={(e) => handlePointChange(e, index)}
+                                />
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
 
                       {question.type === "Pilgan" && (
                         <>

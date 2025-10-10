@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { API_LINK } from "../util/Constants";
 import Icon from "./Icon";
 import KMS_ProgressBar from "./ProgressBar";
-import axios from "axios";
 import Cookies from "js-cookie";
 import AppContext_test from "../page/master-test/TestContext";
 import { decryptId } from "../util/Encryptor";
 import "../../App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import UseFetch from "../util/UseFetch";
 
 export default function KMS_Rightbar({
   handlePreTestClick_close,
@@ -91,21 +91,26 @@ export default function KMS_Rightbar({
 
   const fetchProgresMateri = async () => {
     let success = false;
+
     while (!success) {
       try {
-        const response = await axios.post(
-          API_LINK + "Materi/GetProgresMateri",
-          {
-            materiId: materiId,
-            karyawanId: AppContext_test.activeUser,
-          }
-        );
-        if (response.data) {
+        const result = await UseFetch(API_LINK + "Materi/GetProgresMateri", {
+          materiId: materiId,
+          karyawanId: AppContext_test.activeUser,
+        });
+
+        if (result === "ERROR") {
+          return null;
+        }
+        if (result) {
           success = true;
-          return response.data;
-        } else {
+          return result;
         }
       } catch (error) {
+        console.error(
+          "Terjadi error tak terduga di fetchProgresMateri:",
+          error
+        );
         return null;
       }
     }
@@ -113,55 +118,59 @@ export default function KMS_Rightbar({
 
   useEffect(() => {
     const fetchMateriData = async () => {
-      try {
-        const response = await axios.post(
-          `${API_LINK}Materi/GetDataMateriById`,
-          {
-            materiId: materiId,
-          }
-        );
-        if (response.data) {
-          const { File_pdf, File_video } = response.data[0];
-          setShowMateriFile(!!File_pdf);
-          setShowMateriVideo(!!File_video);
-        }
-      } catch (error) {}
+      const result = await UseFetch(`${API_LINK}Materi/GetDataMateriById`, {
+        materiId: materiId,
+      });
+
+      if (result === "ERROR") {
+        return;
+      }
+
+      if (result && Array.isArray(result) && result.length > 0) {
+        const { File_pdf, File_video } = result[0];
+        setShowMateriFile(!!File_pdf);
+        setShowMateriVideo(!!File_video);
+      }
     };
 
-    if (materiId) fetchMateriData();
+    if (materiId) {
+      fetchMateriData();
+    }
   }, [materiId]);
 
   useEffect(() => {
     const fetchSections = async () => {
       setIsLoading(true);
-      try {
-        const response = await axios.post(`${API_LINK}Section/GetDataSection`, {
-          p1: materiId,
-          p2: "Aktif",
-        });
-        if (response.data) {
-          setSections(response.data);
-          const secTypes = response.data.map((section) => section.SectionType);
-          setShowPreTest(secTypes.includes("Pre-Test"));
-          setShowSharing(secTypes.includes("Sharing Expert"));
-          setShowPostTest(secTypes.includes("Post-Test"));
-          const hasExpertFile = response.data.some(
-            (section) => section.ExpertFile
-          );
-          const hasExpertVideo = response.data.some(
-            (section) => section.ExpertVideo
-          );
-          setShowSharingExpertFile(hasExpertFile);
-          setShowSharingExpertVideo(hasExpertVideo);
-        }
-      } catch (err) {
+      setIsError(false);
+
+      const result = await UseFetch(`${API_LINK}Section/GetDataSection`, {
+        p1: materiId,
+        p2: "Aktif",
+      });
+
+      if (result === "ERROR") {
         setIsError(true);
-      } finally {
-        setIsLoading(false);
+      } else if (result && Array.isArray(result)) {
+        setSections(result);
+        const secTypes = result.map((section) => section.SectionType);
+        setShowPreTest(secTypes.includes("Pre-Test"));
+        setShowSharing(secTypes.includes("Sharing Expert"));
+        setShowPostTest(secTypes.includes("Post-Test"));
+
+        const hasExpertFile = result.some((section) => section.ExpertFile);
+        const hasExpertVideo = result.some((section) => section.ExpertVideo);
+        setShowSharingExpertFile(hasExpertFile);
+        setShowSharingExpertVideo(hasExpertVideo);
       }
+
+      setIsLoading(false);
     };
 
-    if (materiId) fetchSections();
+    if (materiId) {
+      fetchSections();
+    } else {
+      setIsLoading(false);
+    }
   }, [materiId]);
 
   const listOfLearningStyle = {

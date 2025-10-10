@@ -3,24 +3,19 @@ import Cookies from "js-cookie";
 import AppContext_test from "../master-test/TestContext";
 import { decryptId } from "../../../util/Encryptor";
 import MasterProsesIndex from "./Index";
-
 import PengenalanAdd from "./master-materi/PengenalanAdd";
 import PengenalanEdit from "./master-materi/PengenalanEdit";
 import PengenalanBefore from "./master-materi/PengenalanBefore";
 import MasterTestPengenalan from "../master-test/Pengenalan";
-
 import MasterPreTestAdd from "./master-pretest/PreTestAdd";
 import MasterPreTestEdit from "./master-pretest/PreTestEdit";
 import MasterPreTestEditNot from "./master-pretest/PreTestEditNot";
-
 import MasterMateriAdd from "./master-materi/MateriAdd";
 import MasterMateriEdit from "./master-materi/MateriEdit";
 import MasterMateriReviewJawaban from "./master-materi/MateriReviewJawaban";
-
 import MasterSharingAdd from "./master-sharing/SharingAdd";
 import MasterSharingEditNot from "./master-sharing/SharingEditNot";
 import MasterSharingEdit from "./master-sharing/SharingEdit";
-
 import MasterForumAdd from "./master-forum/ForumAdd";
 import MasterForumBefore from "./master-forum/ForumBefore";
 import MasterForumEdit from "./master-forum/ForumEdit";
@@ -40,9 +35,7 @@ import MasterTestSharingVideo from "../master-test/SharingVideo";
 import MasterTestPostTest from "../master-test/PostTest";
 import MasterTestPreTest from "../master-test/PreTest";
 import MasterTestPengerjaanTest from "../master-test/Test";
-
 import KKDetailProgram from "../../master-pic-kk/KelolaProgram/DetailKK";
-
 import "../../../../style/Materi.css";
 import ListPesertaProgram from "./ListPesertaProgram";
 

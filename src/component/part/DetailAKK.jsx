@@ -25,8 +25,15 @@ export default function DetailAKK({ prodi, onChangePage, withID }) {
   const cookie = Cookies.get("activeUser");
   if (cookie) activeUser = JSON.parse(decryptId(cookie)).username;
 
+  const [konfirmasi, setKonfirmasi] = useState("");
+  const [pesanKonfirmasi, setPesanKonfirmasi] = useState("");
+  const [actionType, setActionType] = useState(null);
+  const [selectedAnggota, setSelectedAnggota] = useState(null);
+  const [expandedKategori, setExpandedKategori] = useState({});
+  const [expandedDescription, setExpandedDescription] = useState({});
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isBackAction, setIsBackAction] = useState(false);
+  const [errors, setErrors] = useState({});
   const [isError, setIsError] = useState({ error: false, message: "" });
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingAnggota, setIsLoadingAnggota] = useState(true);
@@ -117,6 +124,7 @@ export default function DetailAKK({ prodi, onChangePage, withID }) {
       }
     } catch (e) {
       setIsLoadingAnggota(false);
+      console.log(e.message);
       setIsError((prevError) => ({
         ...prevError,
         error: true,
@@ -144,6 +152,7 @@ export default function DetailAKK({ prodi, onChangePage, withID }) {
       }
     } catch (e) {
       setIsLoadingProdi(false);
+      console.log(e.message);
       setIsError((prevError) => ({
         ...prevError,
         error: true,
@@ -171,6 +180,7 @@ export default function DetailAKK({ prodi, onChangePage, withID }) {
       }
     } catch (e) {
       setIsLoadingDosen(false);
+      console.log(e.message);
       setIsError((prevError) => ({
         ...prevError,
         error: true,
@@ -202,6 +212,10 @@ export default function DetailAKK({ prodi, onChangePage, withID }) {
     getListAnggota();
     getListDosen();
   }, [currentFilter]);
+
+  useEffect(() => {
+    console.log(JSON.stringify(listAnggota));
+  });
 
   useEffect(() => {
     setIsLoading(isLoadingProdi || isLoadingAnggota || isLoadingDosen);
@@ -254,10 +268,11 @@ export default function DetailAKK({ prodi, onChangePage, withID }) {
           .then((data) => {
             if (data === "ERROR" || data.length === 0) setIsError(true);
             else {
+              console.log("simiii");
               UseFetch(API_LINK + "Utilities/createNotifikasi", {
                 p1: "SENTTOTENAGAPENDIDIK",
                 p2: "ID12346",
-                p3: "APP64",
+                p3: "APP59",
                 p4: "PIC P-KNOW",
                 p5: activeUser,
                 p6: "Anda terpilih sebagai anggota Kelompok Keahlian yang dipilih langsung oleh PIC P-KNOW",
@@ -267,9 +282,10 @@ export default function DetailAKK({ prodi, onChangePage, withID }) {
                 p10: "0",
                 p11: "Jenis Lain",
                 p12: activeUser,
-                p13: "ROL25",
+                p13: "ROL03",
                 p14: id,
               }).then((data) => {
+                console.log("notidikasi", data);
                 if (data === "ERROR" || data.length === 0) setIsError(true);
                 else {
                   setCurrentFilter((prevFilter) => ({
@@ -297,6 +313,7 @@ export default function DetailAKK({ prodi, onChangePage, withID }) {
           .finally(() => setIsLoading(false));
       } else {
         setIsLoading(false);
+        console.log("Penghapusan dibatalkan.");
       }
     });
   };
@@ -367,7 +384,7 @@ export default function DetailAKK({ prodi, onChangePage, withID }) {
               className="deskripsi"
               style={{ fontSize: "17px", width: "100%" }}
             >
-              {truncateText(decode(withID.desc), 250)}
+              {decode(withID.desc)}
             </p>
             <div className="userProdi">
               <FontAwesomeIcon
@@ -407,8 +424,8 @@ export default function DetailAKK({ prodi, onChangePage, withID }) {
                         style={{
                           marginBottom: "18px",
                           border: "none",
-                          boxShadow: "0px 0px 8px rgba(0, 0, 0, 0.1)",
-                          borderRadius: "15px",
+                          boxShadow: "0px 0px 8px rgba(0, 0, 0, 0.1)", // Gray shadow
+                          borderRadius: "15px", // Rounded corners
                         }}
                       >
                         <div
@@ -509,8 +526,8 @@ export default function DetailAKK({ prodi, onChangePage, withID }) {
                         className="card"
                         style={{
                           border: "none",
-                          boxShadow: "0px 0px 8px rgba(0, 0, 0, 0.1)",
-                          borderRadius: "15px",
+                          boxShadow: "0px 0px 8px rgba(0, 0, 0, 0.1)", // Gray shadow
+                          borderRadius: "15px", // Rounded corners
                         }}
                       >
                         <div

@@ -16,6 +16,7 @@ import AppContext_test from "../../master-test/TestContext";
 import { Stepper, Step, StepLabel, Box } from "@mui/material";
 import BackPage from "../../../../../assets/backPage.png";
 import Konfirmasi from "../../../../part/Konfirmasi";
+import Cookies from "js-cookie";
 
 const steps = [
   "Pengenalan",
@@ -95,6 +96,8 @@ export default function MastermateriEdit({ onChangePage }) {
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [isBackAction, setIsBackAction] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [materiPdfLink, setMateriPdfLink] = useState(AppContext_test.materiPdf);
+  const [materiVideoLink, setMateriVideoLink] = useState(AppContext_test.materiVideo);
 
   const handleGoBack = () => {
     setIsBackAction(true);
@@ -110,40 +113,67 @@ export default function MastermateriEdit({ onChangePage }) {
     setShowConfirmation(false);
   };
 
-  const previewFile = async (namaFile) => {
+  const previewFile = async (namaFile, fileType = "") => {
     try {
       namaFile = namaFile.trim();
-      const data = await UseFetch(`${API_LINK}Upload/GetFile/${namaFile}`, {
-        method: "GET",
-        headers: {
-          Accept: "application/octet-stream",
-        },
-      });
 
-      if (data === "ERROR") {
-        throw new Error("Gagal mengambil file");
-      }
+      const isPDF =
+        fileType === "application/pdf" ||
+        namaFile.toLowerCase().endsWith(".pdf");
 
-      const blob = new Blob([data], {
-        type: "application/octet-stream",
-      });
+      if (isPDF) {
+        const apiUrl = `${API_LINK}Upload/GetFile/${namaFile}?inline=true`;
+        const shortFileName = namaFile.split("_")[1] || namaFile.split(".")[0];
+        const newWindow = window.open(apiUrl, "_blank");
 
-      const url = URL.createObjectURL(blob);
-
-      if (namaFile.toLowerCase().endsWith(".pdf")) {
-        window.open(url, "_blank");
+        if (newWindow) {
+          setTimeout(() => {
+            try {
+              newWindow.document.title = shortFileName;
+            } catch (e) {}
+          }, 500);
+        }
       } else {
+        const response = await fetch(`${API_LINK}Upload/GetFile/${namaFile}`, {
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + Cookies.get("jwtToken"),
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Tidak dapat mengambil file");
+        }
+
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+
+        const judulMateri =
+          AppContext_master.MateriForm?.Judul || "SharingExpert";
+        const formattedFileName = `Sharing Expert - ${judulMateri}`;
+
         const link = document.createElement("a");
         link.href = url;
-        link.download = namaFile;
+
+        let extension = "";
+        const actualFileType = fileType || blob.type;
+        if (actualFileType.includes("video")) extension = ".mp4";
+        else if (actualFileType.includes("word")) extension = ".docx";
+        else if (actualFileType.includes("excel")) extension = ".xlsx";
+        else if (actualFileType.includes("powerpoint")) extension = ".pptx";
+        else if (actualFileType.includes("zip")) extension = ".zip";
+        else {
+          const originalExt = namaFile.split(".").pop();
+          extension = originalExt ? `.${originalExt}` : "";
+        }
+
+        link.download = `${formattedFileName}${extension}`;
         link.click();
+
+        setTimeout(() => URL.revokeObjectURL(url), 10000);
       }
     } catch (error) {
-      SweetAlert(
-        "Error",
-        "Tidak dapat menampilkan pratinjau. Silakan unduh file.",
-        "error"
-      );
+      alert("Tidak dapat menampilkan pratinjau. Silakan unduh file.");
     }
   };
 
@@ -276,6 +306,7 @@ export default function MastermateriEdit({ onChangePage }) {
           uploadFile(fileInputRef.current).then((data) => {
             formDataRef.current["mat_file_pdf"] = data.Hasil;
             AppContext_test.materiPdf = data.Hasil;
+            setMateriPdfLink(data.Hasil);
             hasPdfFile = true;
           })
         );
@@ -286,6 +317,7 @@ export default function MastermateriEdit({ onChangePage }) {
           uploadFile(vidioInputRef.current).then((data) => {
             formDataRef.current["mat_file_video"] = data.Hasil;
             AppContext_test.materiVideo = data.Hasil;
+            setMateriVideoLink(data.Hasil);
             hasVideoFile = true;
           })
         );
@@ -461,9 +493,9 @@ export default function MastermateriEdit({ onChangePage }) {
                     handlePdfChange(fileInputRef, "pdf,docx,xlsx,pptx")
                   }
                   errorMessage={errors.mat_file_pdf}
-                  style={{ width: "195%" }}
+                  style={{ maxWidth: "100%" }}
                 />
-                {AppContext_test.materiPdf && (
+                {(materiPdfLink || AppContext_test.materiPdf) && (
                   <a
                     href="#"
                     target="_blank"
@@ -471,7 +503,7 @@ export default function MastermateriEdit({ onChangePage }) {
                     className="text-decoration-none mt-0"
                     onClick={(e) => {
                       e.preventDefault();
-                      previewFile(AppContext_test.materiPdf);
+                     previewFile(materiPdfLink || AppContext_test.materiPdf);
                     }}
                   >
                     Lihat berkas yang telah diunggah
@@ -487,16 +519,16 @@ export default function MastermateriEdit({ onChangePage }) {
                   maxFileSize={250}
                   onChange={() => handleVideoChange(vidioInputRef, "mp4,mov")}
                   errorMessage={errors.mat_file_video}
-                  style={{ width: "195%" }}
+                  style={{ maxWidth: "100%" }}
                 />
-                {AppContext_test.materiVideo && (
+                {(materiVideoLink || AppContext_test.materiVideo) && (
                   <a
                     href="#"
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => {
                       e.preventDefault();
-                      previewFile(AppContext_test.materiVideo);
+                      previewFile(materiVideoLink || AppContext_test.materiVideo);
                     }}
                     className="text-decoration-none mt-0"
                   >

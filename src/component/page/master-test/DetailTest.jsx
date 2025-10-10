@@ -40,6 +40,7 @@ export default function PengerjaanTest({
   const [totalQuestion, setTotalQuestion] = useState();
   const [answerStatus, setAnswerStatus] = useState([]);
   const [answerUser, setAnswerUser] = useState([]);
+
   const selectPreviousQuestion = () => {
     if (selectedQuestion > 1) {
       setSelectedQuestion(selectedQuestion - 1);
@@ -50,6 +51,7 @@ export default function PengerjaanTest({
 
   const idTrq = quizId;
   AppContext_test.quizType = quizType;
+
   const selectNextQuestion = () => {
     if (selectedQuestion < totalQuestion) {
       setSelectedQuestion(selectedQuestion + 1);
